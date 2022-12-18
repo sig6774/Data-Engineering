@@ -1,0 +1,570 @@
+﻿{
+  "paragraphs": [
+    {
+      "title": "1. RDS 단지master 읽어 오기",
+      "text": "import java.sql.Connection\nimport java.sql.Statement\nimport java.sql.DriverManager\n\nval url = \"jdbc:mysql://myclass-instance-1.copmlpmjrnpz.ap-northeast-2.rds.amazonaws.com:3306/dm?characterEncoding=UTF-8\"\n// rds의 접속 정보(앤드포인트)\nval user: String =\"admin\"\nval pass: String=\"papapappapapap\" \n// rds 정보 \n \nval prop = new java.util.Properties\nprop.setProperty(\"driver\", \"com.mysql.jdbc.Driver\")\nprop.setProperty(\"user\", user)\nprop.setProperty(\"password\",pass) \n \n val danjiMasterQuery = \"\"\"(\n        select id,\n               danji_name, \n               sido, \n               sigungu,\n               dong \n        from dm.danji_master\n\n ) a\"\"\"\n \n    val danjiMasterDF = spark.read.format(\"jdbc\").option(\"url\",url).option(\"dbtable\", danjiMasterQuery).option(\"user\", user).option(\"password\", pass).option(\"useUnicode\", \"true\").option(\"characterEncoding\",\"utf8\").load()\n\n\ndanjiMasterDF.createOrReplaceTempView(\"danji_master\")\nsqlContext.cacheTable(\"danji_master\")\n// db의 접속 정보, 추출할 쿼리, Tempview까지 생성 ",
+      "user": "anonymous",
+      "dateUpdated": "2022-12-18T10:08:07+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "title": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1671354983529_423131884",
+      "id": "20181010-131003_1236523071",
+      "dateCreated": "2022-12-18T09:16:23+0000",
+      "dateStarted": "2022-12-18T10:05:58+0000",
+      "dateFinished": "2022-12-18T10:05:58+0000",
+      "status": "FINISHED",
+      "focus": true,
+      "$$hashKey": "object:184",
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "import java.sql.Connection\nimport java.sql.Statement\nimport java.sql.DriverManager\n\u001b[1m\u001b[34murl\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m = jdbc:mysql://myclass-instance-1.copmlpmjrnpz.ap-northeast-2.rds.amazonaws.com:3306/dm?characterEncoding=UTF-8\n\u001b[1m\u001b[34muser\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m = admin\n\u001b[1m\u001b[34mpass\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m = ansrudfhr1\n\u001b[1m\u001b[34mprop\u001b[0m: \u001b[1m\u001b[32mjava.util.Properties\u001b[0m = {user=admin, password=ansrudfhr1, driver=com.mysql.jdbc.Driver}\n\u001b[1m\u001b[34mdanjiMasterQuery\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m =\n(\n        select id,\n               danji_name,\n               sido,\n               sigungu,\n               dong\n        from dm.danji_master\n\n ) a\n\u001b[1m\u001b[34mdanjiMasterDF\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [id: int, danji_name: string ... 3 more fields]\n"
+          }
+        ]
+      }
+    },
+    {
+      "text": "%sql\nselect *\nfrom danji_master",
+      "user": "anonymous",
+      "dateUpdated": "2022-12-18T10:09:00+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/sql",
+        "fontSize": 9,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "id": "string",
+                      "danji_name": "string",
+                      "sido": "string",
+                      "sigungu": "string",
+                      "dong": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                }
+              },
+              "commonSetting": {}
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://ip-172-31-38-97.ap-northeast-2.compute.internal:4040/jobs/job?id=5",
+              "$$hashKey": "object:2719"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1671354983529_801876332",
+      "id": "paragraph_1638192101093_866954859",
+      "dateCreated": "2022-12-18T09:16:23+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:185",
+      "dateFinished": "2022-12-18T10:09:01+0000",
+      "dateStarted": "2022-12-18T10:09:00+0000",
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "id\tdanji_name\tsido\tsigungu\tdong\n3\t강변\t서울특별시\t서초구\t잠원동\n4\t강변우성\t서울특별시\t광진구\t구의동\n5\t강변현대\t서울특별시\t성동구\t성수동2가\n26\t개나리4차\t서울특별시\t강남구\t역삼동\n30\t개포럭키\t서울특별시\t강남구\t도곡동\n31\t개포우성1차\t서울특별시\t강남구\t대치동\n32\t개포우성4차\t서울특별시\t강남구\t도곡동\n33\t개포우성5차\t서울특별시\t강남구\t도곡동\n34\t개포한신\t서울특별시\t강남구\t도곡동\n35\t방화개화\t서울특별시\t강서구\t방화동\n40\t건영\t서울특별시\t강남구\t청담동\n42\t송정건영\t서울특별시\t성동구\t송정동\n43\t건영\t서울특별시\t송파구\t문정동\n44\t건영\t서울특별시\t영등포구\t신길동\n47\t건영1차\t서울특별시\t관악구\t신림동\n48\t건영1차\t서울특별시\t금천구\t시흥동\n51\t건영2차\t서울특별시\t관악구\t신림동\n52\t건영2차\t서울특별시\t금천구\t시흥동\n53\t건영2차\t서울특별시\t노원구\t중계동\n54\t건영3차\t서울특별시\t관악구\t신림동\n55\t건영3차\t서울특별시\t노원구\t중계동\n56\t건영4차\t서울특별시\t관악구\t신림동\n62\t방화경남\t서울특별시\t강서구\t방화동\n63\t경남1차\t서울특별시\t구로구\t고척동\n64\t반포경남\t서울특별시\t서초구\t반포동\n65\t방배경남\t서울특별시\t서초구\t방배동\n73\t경동미주\t서울특별시\t동대문구\t제기동\n79\t고덕삼환\t서울특별시\t강동구\t명일동\n80\t고덕현대\t서울특별시\t강동구\t명일동\n81\t공덕현대\t서울특별시\t마포구\t공덕동\n86\t현대\t서울특별시\t관악구\t봉천동\n87\t광나루현대\t서울특별시\t광진구\t광장동\n90\t광장\t서울특별시\t영등포구\t여의도동\n91\t청구\t서울특별시\t광진구\t광장동\n92\t현대1,2차\t서울특별시\t강남구\t압구정동\n100\t신반포궁전\t서울특별시\t서초구\t반포동\n113\t잠원한신그린\t서울특별시\t서초구\t잠원동\n116\t극동\t서울특별시\t강북구\t수유동\n118\t극동\t서울특별시\t도봉구\t도봉동\n119\t극동\t서울특별시\t도봉구\t방학동\n120\t쌍문극동\t서울특별시\t도봉구\t쌍문동\n121\t신답극동\t서울특별시\t동대문구\t답십리동\n122\t극동\t서울특별시\t동작구\t사당동\n124\t옥수극동\t서울특별시\t성동구\t옥수동\n125\t극동\t서울특별시\t송파구\t가락동\n127\t극동1차\t서울특별시\t광진구\t광장동\n128\t광장극동2차\t서울특별시\t광진구\t광장동\n129\t극동강변\t서울특별시\t동작구\t본동\n130\t극동늘푸른\t서울특별시\t양천구\t목동\n135\t금천현대\t서울특별시\t금천구\t독산동\n136\t금호타운\t서울특별시\t강서구\t염창동\n137\t신림금호타운2차\t서울특별시\t관악구\t신림동\n138\t중계금호타운\t서울특별시\t노원구\t중계동\n139\t가락금호\t서울특별시\t송파구\t가락동\n142\t금호1차\t서울특별시\t도봉구\t쌍문동\n143\t금호2차\t서울특별시\t도봉구\t쌍문동\n144\t금호\t서울특별시\t강북구\t번동\n146\t강변금호타운\t서울특별시\t성동구\t성수동2가\n147\t금호\t서울특별시\t양천구\t목동\n151\t길훈\t서울특별시\t강서구\t방화동\n152\t길훈\t서울특별시\t구로구\t개봉동\n153\t길훈\t서울특별시\t구로구\t오류동\n154\t길훈\t서울특별시\t양천구\t신월동\n158\t까치마을\t서울특별시\t강남구\t수서동\n166\t남산대림\t서울특별시\t용산구\t이태원동\n168\t녹원한신\t서울특별시\t서초구\t잠원동\n171\t뉴서울\t서울특별시\t관악구\t신림동\n176\t벽산늘푸른\t서울특별시\t강서구\t염창동\n184\t대광\t서울특별시\t성북구\t안암동3가\n185\t대교\t서울특별시\t영등포구\t여의도동\n187\t대동\t서울특별시\t노원구\t월계동\n191\t대림\t서울특별시\t서대문구\t연희동\n192\t대림\t서울특별시\t서초구\t우면동\n193\t가락대림\t서울특별시\t송파구\t가락동\n194\t대림\t서울특별시\t송파구\t방이동\n195\t대림\t서울특별시\t송파구\t오금동\n196\t대림\t서울특별시\t용산구\t이촌동\n197\t대림\t서울특별시\t은평구\t녹번동\n200\t대림\t서울특별시\t강남구\t도곡동\n201\t등촌대림\t서울특별시\t강서구\t등촌동\n202\t화곡대림\t서울특별시\t강서구\t화곡동\n203\t진로대림\t서울특별시\t노원구\t중계동\n204\t대방대림\t서울특별시\t동작구\t대방동\n205\t대림\t서울특별시\t동작구\t사당동\n206\t대림경동\t서울특별시\t강서구\t가양동\n208\t대림\t서울특별시\t양천구\t신정동\n211\t대림1차\t서울특별시\t성동구\t응봉동\n214\t대림2차\t서울특별시\t성동구\t응봉동\n215\t대림2차\t서울특별시\t양천구\t목동\n219\t대림역삼\t서울특별시\t강남구\t역삼동\n223\t동신대아\t서울특별시\t강서구\t가양동\n224\t경남아너스빌\t서울특별시\t동작구\t사당동\n225\t대아\t서울특별시\t동작구\t사당동\n230\t고척대우\t서울특별시\t구로구\t고척동\n231\t창동대우\t서울특별시\t도봉구\t창동\n234\t성수대우1차\t서울특별시\t성동구\t성수동2가\n240\t대우효령\t서울특별시\t서초구\t방배동\n241\t대웅\t서울특별시\t도봉구\t쌍문동\n244\t대원그린\t서울특별시\t도봉구\t방학동\n248\t대청\t서울특별시\t강남구\t개포동\n249\t대치2단지\t서울특별시\t강남구\t개포동\n258\t도시개발2단지\t서울특별시\t강서구\t방화동\n259\t가양성지2단지\t서울특별시\t강서구\t가양동\n260\t방화5단지\t서울특별시\t강서구\t방화동\n261\t가양6단지\t서울특별시\t강서구\t가양동\n262\t가양9단지\t서울특별시\t강서구\t가양동\n263\t독립문삼호\t서울특별시\t서대문구\t영천동\n273\t동보\t서울특별시\t영등포구\t양평동5가\n276\t동부센트레빌\t서울특별시\t강남구\t역삼동\n277\t동부\t서울특별시\t노원구\t공릉동\n279\t동부1차\t서울특별시\t구로구\t오류동\n280\t청담래미안로이뷰\t서울특별시\t강남구\t청담동\n282\t등촌동성\t서울특별시\t강서구\t등촌동\n283\t동성\t서울특별시\t강서구\t방화동\n286\t동신\t서울특별시\t성북구\t하월곡동\n287\t동신\t서울특별시\t노원구\t월계동\n288\t도곡쌍용예가\t서울특별시\t강남구\t도곡동\n291\t동아\t서울특별시\t강동구\t둔촌동\n293\t상일동아\t서울특별시\t강동구\t상일동\n300\t거여2단지효성동아\t서울특별시\t송파구\t거여동\n301\t포스코더샵\t서울특별시\t강남구\t대치동\n302\t동아1차\t서울특별시\t강서구\t염창동\n304\t염창동아3차\t서울특별시\t강서구\t염창동\n305\t그린\t서울특별시\t용산구\t이촌동\n307\t동아\t서울특별시\t성동구\t성수동1가\n310\t동고\t서울특별시\t서초구\t우면동\n313\t동익\t서울특별시\t강남구\t수서동\n314\t동익미라벨\t서울특별시\t도봉구\t쌍문동\n315\t동인\t서울특별시\t구로구\t개봉동\n316\t동진\t서울특별시\t노원구\t중계동\n318\t동현\t서울특별시\t강남구\t논현동\n323\t두산\t서울특별시\t구로구\t개봉동\n324\t두산위브\t서울특별시\t금천구\t가산동\n325\t두산\t서울특별시\t서대문구\t홍은동\n326\t두산\t서울특별시\t성북구\t석관동\n332\t신성\t서울특별시\t은평구\t신사동\n334\t라인\t서울특별시\t강동구\t길동\n335\t라인\t서울특별시\t강서구\t등촌동\n336\t럭키\t서울특별시\t금천구\t시흥동\n337\t럭키\t서울특별시\t도봉구\t도봉동\n338\t대현럭키\t서울특별시\t서대문구\t대현동\n341\t롯데우성\t서울특별시\t노원구\t중계동\n345\t마포현대\t서울특별시\t마포구\t공덕동\n346\t매봉삼성\t서울특별시\t강남구\t도곡동\n353\t명일삼환\t서울특별시\t강동구\t명일동\n355\t목동신시가지10단지\t서울특별시\t양천구\t신정동\n356\t목동신시가지12단지\t서울특별시\t양천구\t신정동\n357\t목동신시가지13단지\t서울특별시\t양천구\t신정동\n358\t목동신시가지14단지\t서울특별시\t양천구\t신정동\n359\t목동신시가지2단지\t서울특별시\t양천구\t목동\n360\t목동신시가지3단지\t서울특별시\t양천구\t목동\n361\t목동신시가지4단지\t서울특별시\t양천구\t목동\n362\t목동신시가지5단지\t서울특별시\t양천구\t목동\n363\t목동신시가지6단지\t서울특별시\t양천구\t목동\n364\t목동신시가지8단지\t서울특별시\t양천구\t신정동\n365\t목동신시가지9단지\t서울특별시\t양천구\t신정동\n370\t목련타운\t서울특별시\t강남구\t일원동\n371\t목화\t서울특별시\t영등포구\t여의도동\n382\t무지개\t서울특별시\t금천구\t시흥동\n394\t무학현대\t서울특별시\t성동구\t하왕십리동\n410\t반포미도1차\t서울특별시\t서초구\t반포동\n413\t반포미도2차\t서울특별시\t서초구\t반포동\n416\t미륭미성삼호3차\t서울특별시\t노원구\t월계동\n420\t미성\t서울특별시\t관악구\t신림동\n421\t미성\t서울특별시\t구로구\t신도림동\n422\t미성\t서울특별시\t노원구\t하계동\n423\t미성맨션\t서울특별시\t서대문구\t홍은동\n424\t미성\t서울특별시\t송파구\t신천동\n425\t미성맨션\t서울특별시\t송파구\t풍납동\n426\t미성\t서울특별시\t영등포구\t여의도동\n427\t라이프미성\t서울특별시\t은평구\t불광동\n428\t미성맨션\t서울특별시\t송파구\t송파동\n431\t미주\t서울특별시\t동대문구\t청량리동\n432\t미주진로\t서울특별시\t강서구\t등촌동\n438\t반도\t서울특별시\t용산구\t이촌동\n440\t밤섬현대\t서울특별시\t마포구\t현석동\n441\t배재현대\t서울특별시\t강동구\t고덕동\n460\t수유벽산1차\t서울특별시\t강북구\t수유동\n462\t벽산1차\t서울특별시\t도봉구\t방학동\n463\t양평벽산블루밍\t서울특별시\t영등포구\t양평동2가\n478\t부영\t서울특별시\t강서구\t등촌동\n483\t산장\t서울특별시\t성북구\t정릉동\n484\t산호\t서울특별시\t용산구\t원효로4가\n489\t삼두\t서울특별시\t영등포구\t신길동\n494\t행당삼부\t서울특별시\t성동구\t행당동\n495\t돈암삼부\t서울특별시\t성북구\t길음동\n496\t삼부\t서울특별시\t영등포구\t여의도동\n503\t청담삼성1차\t서울특별시\t강남구\t청담동\n504\t삼성\t서울특별시\t광진구\t자양동\n505\t삼성래미안\t서울특별시\t도봉구\t창동\n506\t삼성\t서울특별시\t마포구\t도화동\n507\t삼성\t서울특별시\t송파구\t오금동\n508\t당산삼성2차\t서울특별시\t영등포구\t당산동4가\n509\t삼성래미안\t서울특별시\t영등포구\t신길동\n512\t삼성1차\t서울특별시\t광진구\t광장동\n513\t삼성2차\t서울특별시\t광진구\t광장동\n514\t경남아너스빌\t서울특별시\t영등포구\t영등포동7가\n516\t관음삼성\t서울특별시\t강서구\t염창동\n517\t삼성꽃마을\t서울특별시\t강서구\t방화동\n521\t삼성하나로\t서울특별시\t강서구\t염창동\n522\t한마음삼성\t서울특별시\t강서구\t염창동\n523\t삼성한아름\t서울특별시\t강서구\t염창동\n528\t삼익\t서울특별시\t서초구\t방배동\n529\t삼익\t서울특별시\t성북구\t안암동3가\n530\t가락삼익맨숀\t서울특별시\t송파구\t송파동\n531\t목동삼익\t서울특별시\t양천구\t목동\n532\t삼익\t서울특별시\t영등포구\t당산동3가\n533\t삼익\t서울특별시\t영등포구\t여의도동\n534\t삼익\t서울특별시\t용산구\t이촌동\n539\t삼익\t서울특별시\t강남구\t수서동\n540\t삼익\t서울특별시\t강남구\t청담동\n541\t삼익\t서울특별시\t강동구\t천호동\n542\t방화4단지\t서울특별시\t강서구\t방화동\n543\t삼익\t서울특별시\t금천구\t가산동\n544\t삼익\t서울특별시\t노원구\t공릉동\n546\t신촌삼익\t서울특별시\t마포구\t신수동\n547\t삼익선경\t서울특별시\t노원구\t하계동\n549\t삼익가든\t서울특별시\t강동구\t명일동\n553\t삼익세라믹\t서울특별시\t도봉구\t방학동\n554\t삼익세라믹\t서울특별시\t도봉구\t쌍문동\n555\t삼익파크맨숀\t서울특별시\t강동구\t길동\n558\t삼천리\t서울특별시\t구로구\t오류동\n559\t삼풍\t서울특별시\t서초구\t서초동\n564\t삼호\t서울특별시\t구로구\t개봉동\n565\t상도삼호\t서울특별시\t동작구\t상도동\n566\t북가좌삼호\t서울특별시\t서대문구\t북가좌동\n567\t양평삼호\t서울특별시\t영등포구\t양평동3가\n568\t가든맨션3차\t서울특별시\t서초구\t반포동\n570\t삼호가든맨션5차\t서울특별시\t서초구\t반포동\n576\t삼환\t서울특별시\t구로구\t개봉동\n577\t삼환도봉\t서울특별시\t도봉구\t도봉동\n578\t가락삼환\t서울특별시\t송파구\t가락동\n579\t삼환\t서울특별시\t영등포구\t신길동\n580\t영등포삼환\t서울특별시\t영등포구\t영등포동8가\n588\t상록수\t서울특별시\t강남구\t일원동\n594\t사당휴먼시아\t서울특별시\t동작구\t사당동\n595\t경남롯데상아\t서울특별시\t노원구\t중계동\n597\t상아2차\t서울특별시\t강남구\t삼성동\n598\t상아2차\t서울특별시\t송파구\t오금동\n600\t상우\t서울특별시\t구로구\t개봉동\n603\t엠브이\t서울특별시\t서초구\t반포동\n607\t샘터마을\t서울특별시\t강남구\t일원동\n613\t치현마을서광\t서울특별시\t강서구\t방화동\n614\t서광\t서울특별시\t노원구\t월계동\n615\t서울\t서울특별시\t영등포구\t여의도동\n616\t서울가든\t서울특별시\t구로구\t고척동\n617\t서울가든\t서울특별시\t도봉구\t도봉동\n618\t서울가든\t서울특별시\t동대문구\t휘경동\n621\t유원서초\t서울특별시\t서초구\t서초동\n631\t석탑\t서울특별시\t강남구\t삼성동\n635\t선경1,2차\t서울특별시\t강남구\t대치동\n637\t선경종암\t서울특별시\t성북구\t종암동\n639\t코오롱1차\t서울특별시\t강동구\t성내동\n640\t현대\t서울특별시\t성동구\t성수동1가\n642\t성안마을청구\t서울특별시\t강동구\t성내동\n644\t성원\t서울특별시\t도봉구\t쌍문동\n645\t성원\t서울특별시\t동작구\t대방동\n646\t성원\t서울특별시\t영등포구\t당산동5가\n647\t성원\t서울특별시\t영등포구\t대림동\n648\t성원\t서울특별시\t영등포구\t양평동4가\n649\t북한강\t서울특별시\t용산구\t이촌동\n651\t성원\t서울특별시\t강북구\t우이동\n653\t성원2차\t서울특별시\t양천구\t목동\n658\t성지\t서울특별시\t금천구\t시흥동\n659\t성지\t서울특별시\t송파구\t송파동\n663\t세림\t서울특별시\t성동구\t마장동\n676\t송산\t서울특별시\t성북구\t동소문동4가\n679\t수정\t서울특별시\t영등포구\t여의도동\n693\t정릉스카이쌍용\t서울특별시\t성북구\t정릉동\n694\t시범\t서울특별시\t영등포구\t여의도동\n695\t시범\t서울특별시\t용산구\t이촌동\n701\t문정시영\t서울특별시\t송파구\t문정동\n702\t신월시영\t서울특별시\t양천구\t신월동\n704\t거여1단지\t서울특별시\t송파구\t거여동\n707\t거여4단지\t서울특별시\t송파구\t거여동\n708\t공릉삼익4단지\t서울특별시\t노원구\t공릉동\n709\t거여5단지\t서울특별시\t송파구\t거여동\n710\t장미\t서울특별시\t노원구\t하계동\n711\t청솔\t서울특별시\t노원구\t하계동\n717\t신답경남\t서울특별시\t동대문구\t답십리동\n722\t신동아\t서울특별시\t강동구\t명일동\n723\t신동아\t서울특별시\t강서구\t방화동\n724\t신동아\t서울특별시\t강서구\t염창동\n725\t신동아\t서울특별시\t관악구\t신림동\n726\t신동아\t서울특별시\t동작구\t신대방동\n727\t신동아\t서울특별시\t서초구\t방배동\n728\t신동아\t서울특별시\t성동구\t응봉동\n729\t신동아\t서울특별시\t성동구\t행당동\n730\t신동아\t서울특별시\t송파구\t풍납동\n731\t신동아\t서울특별시\t영등포구\t양평동1가\n732\t신동아\t서울특별시\t용산구\t보광동\n733\t신동아\t서울특별시\t용산구\t서빙고동\n734\t신동아\t서울특별시\t은평구\t응암동\n738\t논현신동아파밀리에\t서울특별시\t강남구\t논현동\n739\t신동아\t서울특별시\t강남구\t수서동\n740\t신동아1단지\t서울특별시\t도봉구\t방학동\n741\t신동아1,2차\t서울특별시\t강동구\t길동\n743\t신동아2단지\t서울특별시\t도봉구\t방학동\n744\t신동아3단지\t서울특별시\t도봉구\t방학동\n746\t신동아4단지\t서울특별시\t도봉구\t방학동\n748\t신동아5단지\t서울특별시\t도봉구\t방학동\n754\t신림현대\t서울특별시\t관악구\t신림동\n766\t현대\t서울특별시\t강남구\t압구정동\n770\t뉴신사신성\t서울특별시\t은평구\t신사동\n771\t신성수정\t서울특별시\t은평구\t신사동\n773\t신안동진\t서울특별시\t노원구\t중계동\n775\t신안파크\t서울특별시\t양천구\t신월동\n785\t신창\t서울특별시\t도봉구\t창동\n786\t신트리1단지\t서울특별시\t양천구\t신정동\n792\t신현대\t서울특별시\t동대문구\t회기동\n794\t신화\t서울특별시\t서초구\t잠원동\n800\t쌍용\t서울특별시\t관악구\t신림동\n801\t쌍용\t서울특별시\t도봉구\t창동\n802\t한강쌍용\t서울특별시\t동작구\t본동\n803\t성수동아그린\t서울특별시\t성동구\t성수동1가\n804\t가락쌍용1차\t서울특별시\t송파구\t가락동\n805\t쌍용\t서울특별시\t송파구\t풍납동\n806\t쌍용\t서울특별시\t양천구\t신정동\n811\t대치쌍용1차\t서울특별시\t강남구\t대치동\n814\t아남\t서울특별시\t강동구\t고덕동\n815\t아남\t서울특별시\t성북구\t보문동6가\n816\t아남\t서울특별시\t성북구\t하월곡동\n817\t아남\t서울특별시\t송파구\t오금동\n821\t아시아선수촌\t서울특별시\t송파구\t잠실동\n827\t양지대림\t서울특별시\t노원구\t중계동\n828\t신안\t서울특별시\t노원구\t중계동\n830\t역삼럭키\t서울특별시\t강남구\t도곡동\n831\t역삼우성\t서울특별시\t강남구\t도곡동\n835\t염광\t서울특별시\t노원구\t중계동\n836\t쌍문염광\t서울특별시\t도봉구\t쌍문동\n850\t영화\t서울특별시\t구로구\t개봉동\n858\t하계1차청구\t서울특별시\t노원구\t하계동\n860\t올림픽베어스타운\t서울특별시\t송파구\t방이동\n861\t왕궁\t서울특별시\t용산구\t이촌동\n867\t길동우성\t서울특별시\t강동구\t길동\n868\t명일우성\t서울특별시\t강동구\t명일동\n869\t천호우성\t서울특별시\t강동구\t천호동\n870\t가양우성\t서울특별시\t강서구\t가양동\n871\t우성\t서울특별시\t동대문구\t전농동\n872\t우성\t서울특별시\t동작구\t노량진동\n873\t우성\t서울특별시\t마포구\t도화동\n874\t방배우성\t서울특별시\t서초구\t방배동\n875\t우성\t서울특별시\t서초구\t양재동\n877\t우성\t서울특별시\t양천구\t목동\n878\t이촌우성\t서울특별시\t용산구\t이촌동\n879\t응암우성\t서울특별시\t은평구\t응암동\n888\t우성1,2,3차\t서울특별시\t송파구\t잠실동\n889\t우성1차\t서울특별시\t구로구\t신도림동\n891\t염창우성1차\t서울특별시\t강서구\t염창동\n892\t우성1차\t서울특별시\t동작구\t신대방동\n893\t우성1차\t서울특별시\t서초구\t서초동\n894\t신길우성1차\t서울특별시\t영등포구\t신길동\n895\t우성2단지\t서울특별시\t동작구\t사당동\n898\t대치래미안하이스턴\t서울특별시\t강남구\t대치동\n899\t염창우성2차\t서울특별시\t강서구\t염창동\n900\t우성2차\t서울특별시\t도봉구\t방학동\n903\t우성3단지\t서울특별시\t동작구\t사당동\n905\t우성3차\t서울특별시\t강남구\t개포동\n906\t염창우성3차\t서울특별시\t강서구\t염창동\n908\t우성4차\t서울특별시\t송파구\t잠실동\n909\t신길우성4차\t서울특별시\t영등포구\t신길동\n911\t우성5차\t서울특별시\t서초구\t서초동\n912\t신길우성5차\t서울특별시\t영등포구\t신길동\n914\t우성6차\t서울특별시\t강남구\t개포동\n915\t우성8차\t서울특별시\t강남구\t개포동\n916\t우성9차\t서울특별시\t강남구\t개포동\n917\t우성그린\t서울특별시\t동대문구\t답십리동\n918\t우성캐릭터199\t서울특별시\t강남구\t도곡동\n921\t우정\t서울특별시\t동작구\t대방동\n922\t우정\t서울특별시\t양천구\t신월동\n923\t가락우창\t서울특별시\t송파구\t오금동\n924\t우창\t서울특별시\t영등포구\t신길동\n932\t유원\t서울특별시\t도봉구\t도봉동\n933\t유원목동\t서울특별시\t양천구\t신정동\n936\t유원제일\t서울특별시\t영등포구\t당산동4가\n937\t유원제일2차\t서울특별시\t영등포구\t당산동5가\n946\t은마\t서울특별시\t강남구\t대치동\n948\t은빛1단지\t서울특별시\t노원구\t상계동\n949\t은하\t서울특별시\t영등포구\t여의도동\n980\t워커힐푸르지오\t서울특별시\t광진구\t광장동\n983\t임광3차\t서울특별시\t서초구\t방배동\n986\t잠원한신\t서울특별시\t서초구\t잠원동\n987\t잠원현대\t서울특별시\t서초구\t잠원동\n989\t장미\t서울특별시\t영등포구\t여의도동\n1000\t점보\t서울특별시\t용산구\t이촌동\n1003\t제일\t서울특별시\t동작구\t사당동\n1007\t이태원주공\t서울특별시\t용산구\t이태원동\n1013\t등촌주공10단지\t서울특별시\t강서구\t등촌동\n1020\t주공14단지\t서울특별시\t금천구\t독산동\n1021\t상계주공14단지\t서울특별시\t노원구\t상계동\n1022\t주공17단지\t서울특별시\t도봉구\t창동\n1023\t창동주공18단지\t서울특별시\t도봉구\t창동\n1027\t주공저층1단지\t서울특별시\t강동구\t둔촌동\n1028\t번동주공1단지\t서울특별시\t강북구\t번동\n1041\t주공저층2단지\t서울특별시\t강동구\t둔촌동\n1042\t등촌주공2단지\t서울특별시\t강서구\t등촌동\n1043\t창동주공2단지\t서울특별시\t도봉구\t창동\n1050\t주공고층3단지\t서울특별시\t강동구\t둔촌동\n1052\t등촌주공3단지\t서울특별시\t강서구\t등촌동\n1053\t창동주공3단지\t서울특별시\t도봉구\t창동\n1061\t개포주공4단지\t서울특별시\t강남구\t개포동\n1064\t번동주공4단지\t서울특별시\t강북구\t번동\n1065\t중계주공4단지\t서울특별시\t노원구\t중계동\n1066\t창동주공4단지\t서울특별시\t도봉구\t창동\n1068\t중계주공5단지\t서울특별시\t노원구\t중계동\n1069\t잠실주공5단지\t서울특별시\t송파구\t잠실동\n1073\t개포주공5단지\t서울특별시\t강남구\t개포동\n1075\t등촌주공5단지\t서울특별시\t강서구\t등촌동\n1077\t개포주공6단지\t서울특별시\t강남구\t개포동\n1079\t중계주공6단지\t서울특별시\t노원구\t중계동\n1083\t개포주공7단지\t서울특별시\t강남구\t개포동\n1085\t중계주공7단지\t서울특별시\t노원구\t중계동\n1088\t중계주공8단지\t서울특별시\t노원구\t중계동\n1106\t둔촌하이츠\t서울특별시\t강동구\t둔촌동\n1107\t명일중앙하이츠\t서울특별시\t강동구\t상일동\n1108\t하이츠\t서울특별시\t성동구\t사근동\n1109\t중앙하이츠\t서울특별시\t성북구\t석관동\n1111\t중앙하이츠\t서울특별시\t강동구\t암사동\n1112\t중앙하이츠\t서울특별시\t노원구\t중계동\n1114\t중앙하이츠\t서울특별시\t강동구\t천호동\n1118\t진도1차\t서울특별시\t양천구\t목동\n1120\t방화진로\t서울특별시\t강서구\t방화동\n1122\t진주\t서울특별시\t송파구\t신천동\n1123\t진주\t서울특별시\t영등포구\t여의도동\n1127\t진흥\t서울특별시\t서초구\t서초동\n1130\t유원\t서울특별시\t강동구\t천호동\n1135\t청구\t서울특별시\t강남구\t삼성동\n1136\t청담아이파크\t서울특별시\t강남구\t청담동\n1137\t둔촌역청구\t서울특별시\t강동구\t성내동\n1138\t청구\t서울특별시\t구로구\t고척동\n1139\t청구\t서울특별시\t노원구\t하계동\n1140\t청구\t서울특별시\t도봉구\t방학동\n1141\t쌍문청구\t서울특별시\t도봉구\t쌍문동\n1142\t신반포청구\t서울특별시\t서초구\t잠원동\n1143\t청구\t서울특별시\t양천구\t신정동\n1144\t도림청구\t서울특별시\t영등포구\t도림동\n1145\t목동청구한신\t서울특별시\t양천구\t목동\n1146\t청구3차\t서울특별시\t노원구\t중계동\n1147\t현대\t서울특별시\t동대문구\t청량리동\n1159\t방화3단지청솔\t서울특별시\t강서구\t방화동\n1160\t청실\t서울특별시\t구로구\t개봉동\n1162\t청화\t서울특별시\t용산구\t이태원동\n1163\t초록\t서울특별시\t강서구\t화곡동\n1174\t코오롱\t서울특별시\t노원구\t상계동\n1175\t코오롱\t서울특별시\t서초구\t우면동\n1176\t코오롱\t서울특별시\t성북구\t삼선동4가\n1177\t대림코오롱\t서울특별시\t영등포구\t대림동\n1179\t크로바\t서울특별시\t송파구\t신천동\n1195\t태진아름\t서울특별시\t강서구\t등촌동\n1196\t태진한솔\t서울특별시\t강서구\t염창동\n1199\t씨티\t서울특별시\t은평구\t신사동\n1207\t당산쌍용예가클래식\t서울특별시\t영등포구\t당산동3가\n1210\t마곡청구\t서울특별시\t강서구\t방화동\n1212\t푸른마을\t서울특별시\t강남구\t일원동\n1214\t풍납현대\t서울특별시\t송파구\t풍납동\n1221\t풍림1차\t서울특별시\t서대문구\t홍은동\n1223\t풍림2차\t서울특별시\t서대문구\t홍은동\n1227\t풍전\t서울특별시\t용산구\t원효로4가\n1229\t프라자\t서울특별시\t강동구\t둔촌동\n1230\t프라자\t서울특별시\t송파구\t가락동\n1233\t중앙하이츠\t서울특별시\t강서구\t화곡동\n1234\t한가람\t서울특별시\t용산구\t이촌동\n1237\t한강극동\t서울특별시\t광진구\t자양동\n1238\t한강극동\t서울특별시\t송파구\t풍납동\n1239\t한강맨션\t서울특별시\t용산구\t이촌동\n1240\t한강삼성\t서울특별시\t마포구\t토정동\n1241\t성원\t서울특별시\t광진구\t자양동\n1242\t한강우성\t서울특별시\t광진구\t자양동\n1243\t한강\t서울특별시\t강서구\t가양동\n1244\t한강현대\t서울특별시\t광진구\t자양동\n1245\t한강현대\t서울특별시\t동작구\t흑석동\n1246\t현대한강\t서울특별시\t용산구\t이촌동\n1258\t우면한라\t서울특별시\t서초구\t우면동\n1259\t한라\t서울특별시\t영등포구\t도림동\n1262\t한마을\t서울특별시\t구로구\t개봉동\n1263\t한미\t서울특별시\t강서구\t방화동\n1264\t한보구암마을\t서울특별시\t강서구\t가양동\n1265\t공릉한보\t서울특별시\t노원구\t공릉동\n1266\t한성\t서울특별시\t동작구\t신대방동\n1267\t한성\t서울특별시\t영등포구\t신길동\n1279\t개포한신\t서울특별시\t강남구\t일원동\n1280\t한신\t서울특별시\t강동구\t천호동\n1281\t구로한신1차\t서울특별시\t구로구\t구로동\n1282\t한신\t서울특별시\t금천구\t독산동\n1283\t한신\t서울특별시\t노원구\t하계동\n1284\t도봉한신\t서울특별시\t도봉구\t도봉동\n1285\t한신\t서울특별시\t동대문구\t장안동\n1286\t한신\t서울특별시\t송파구\t가락동\n1289\t신반포10차\t서울특별시\t서초구\t잠원동\n1290\t신반포11차\t서울특별시\t서초구\t잠원동\n1291\t신반포12차\t서울특별시\t서초구\t잠원동\n1292\t신반포13차\t서울특별시\t서초구\t잠원동\n1293\t신반포14차\t서울특별시\t서초구\t잠원동\n1295\t신반포16차\t서울특별시\t서초구\t잠원동\n1296\t신반포17차\t서울특별시\t서초구\t잠원동\n1297\t신반포18차\t서울특별시\t서초구\t잠원동\n1298\t신반포19차\t서울특별시\t서초구\t잠원동\n1299\t신반포20차\t서울특별시\t서초구\t잠원동\n1300\t신반포21차\t서울특별시\t서초구\t잠원동\n1301\t신반포22차\t서울특별시\t서초구\t잠원동\n1302\t신반포23차\t서울특별시\t서초구\t반포동\n1304\t신반포25차\t서울특별시\t서초구\t잠원동\n1306\t신반포27차\t서울특별시\t서초구\t잠원동\n1308\t신반포2차\t서울특별시\t서초구\t잠원동\n1311\t신반포7차\t서울특별시\t서초구\t잠원동\n1312\t신반포8차\t서울특별시\t서초구\t잠원동\n1313\t신반포9차\t서울특별시\t서초구\t잠원동\n1314\t한신로얄\t서울특별시\t서초구\t잠원동\n1315\t한신무학\t서울특별시\t성동구\t하왕십리동\n1316\t한신서래\t서울특별시\t서초구\t반포동\n1318\t한신코아\t서울특별시\t송파구\t신천동\n1319\t잠원훼미리\t서울특별시\t서초구\t잠원동\n1320\t도곡한신\t서울특별시\t강남구\t도곡동\n1325\t한양\t서울특별시\t강동구\t명일동\n1326\t번동한양\t서울특별시\t강북구\t번동\n1327\t한양\t서울특별시\t노원구\t상계동\n1328\t한양\t서울특별시\t서대문구\t홍제동\n1330\t한양\t서울특별시\t영등포구\t당산동3가\n1331\t한양\t서울특별시\t영등포구\t여의도동\n1332\t한양1차\t서울특별시\t도봉구\t쌍문동\n1333\t한양1차\t서울특별시\t송파구\t송파동\n1335\t한양2차\t서울특별시\t송파구\t송파동\n1337\t한양2,3,4차\t서울특별시\t도봉구\t쌍문동\n1338\t잠실3차한양\t서울특별시\t송파구\t방이동\n1339\t한양5차\t서울특별시\t도봉구\t쌍문동\n1340\t한양6차\t서울특별시\t도봉구\t쌍문동\n1341\t한양7차\t서울특별시\t도봉구\t쌍문동\n1345\t우성\t서울특별시\t강동구\t길동\n1346\t현대\t서울특별시\t영등포구\t당산동2가\n1349\t행당한진타운\t서울특별시\t성동구\t행당동\n1351\t한진타운\t서울특별시\t성동구\t성수동1가\n1352\t한화성원\t서울특별시\t도봉구\t방학동\n1355\t한효\t서울특별시\t구로구\t고척동\n1356\t해바라기\t서울특별시\t관악구\t봉천동\n1357\t한신\t서울특별시\t영등포구\t양평동5가\n1367\t현대\t서울특별시\t중구\t신당동\n1370\t목동현대1차\t서울특별시\t양천구\t목동\n1371\t현대맨숀\t서울특별시\t용산구\t이촌동\n1382\t현대\t서울특별시\t강동구\t길동\n1383\t현대\t서울특별시\t강동구\t성내동\n1384\t현대\t서울특별시\t강동구\t천호동\n1385\t미아현대\t서울특별시\t강북구\t미아동\n1386\t방화현대\t서울특별시\t강서구\t방화동\n1387\t현대\t서울특별시\t구로구\t신도림동\n1388\t불암현대\t서울특별시\t노원구\t상계동\n1389\t현대\t서울특별시\t동작구\t사당동\n1390\t현대\t서울특별시\t동작구\t신대방동\n1391\t마장현대\t서울특별시\t성동구\t마장동\n1392\t현대\t서울특별시\t성동구\t옥수동\n1393\t금호현대\t서울특별시\t성동구\t응봉동\n1394\t길음현대\t서울특별시\t성북구\t길음동\n1395\t돈암현대\t서울특별시\t성북구\t돈암동\n1396\t현대\t서울특별시\t송파구\t송파동\n1397\t현대\t서울특별시\t송파구\t잠실동\n1400\t현대\t서울특별시\t강서구\t등촌동\n1406\t현대1차\t서울특별시\t강남구\t개포동\n1407\t현대\t서울특별시\t강남구\t대치동\n1408\t도곡현대\t서울특별시\t강남구\t도곡동\n1410\t현대1차\t서울특별시\t강동구\t둔촌동\n1411\t현대1차\t서울특별시\t강서구\t염창동\n1412\t현대우성\t서울특별시\t노원구\t하계동\n1413\t현대\t서울특별시\t서초구\t서초동\n1414\t현대1차\t서울특별시\t송파구\t거여동\n1416\t현대1차\t서울특별시\t영등포구\t대림동\n1419\t현대2,3,4차\t서울특별시\t송파구\t오금동\n1420\t구의현대2단지\t서울특별시\t광진구\t구의동\n1421\t현대2차\t서울특별시\t영등포구\t대림동\n1422\t신사현대1차\t서울특별시\t은평구\t신사동\n1429\t현대2차\t서울특별시\t강남구\t개포동\n1430\t현대2차\t서울특별시\t강남구\t청담동\n1431\t현대2차\t서울특별시\t강동구\t둔촌동\n1432\t쌍문현대2차\t서울특별시\t도봉구\t쌍문동\n1433\t광장현대3단지\t서울특별시\t광진구\t광장동\n1435\t현대3차\t서울특별시\t강남구\t개포동\n1436\t현대3차\t서울특별시\t강동구\t둔촌동\n1437\t상계현대3차\t서울특별시\t노원구\t상계동\n1438\t현대3차\t서울특별시\t송파구\t거여동\n1439\t현대3차\t서울특별시\t영등포구\t당산동4가\n1440\t현대3차\t서울특별시\t영등포구\t대림동\n1443\t현대4차\t서울특별시\t강남구\t일원동\n1444\t둔촌현대4차\t서울특별시\t강동구\t둔촌동\n1445\t상계현대4차\t서울특별시\t노원구\t상계동\n1446\t현대2차\t서울특별시\t영등포구\t양평동3가\n1449\t광장현대5단지\t서울특별시\t광진구\t광장동\n1451\t현대5차\t서울특별시\t송파구\t가락동\n1453\t현대6단지\t서울특별시\t광진구\t구의동\n1454\t현대6차\t서울특별시\t노원구\t중계동\n1455\t가락현대6차\t서울특별시\t송파구\t가락동\n1456\t구의조합현대7단지\t서울특별시\t광진구\t구의동\n1458\t현대8단지\t서울특별시\t광진구\t광장동\n1459\t현대9단지\t서울특별시\t광진구\t광장동\n1460\t현대\t서울특별시\t금천구\t시흥동\n1461\t현대그린\t서울특별시\t강남구\t도곡동\n1462\t현대그린\t서울특별시\t서대문구\t홍제동\n1463\t구로현대\t서울특별시\t구로구\t구로동\n1465\t현대\t서울특별시\t구로구\t구로동\n1466\t현대연예인\t서울특별시\t구로구\t구로동\n1468\t명일현대\t서울특별시\t강동구\t명일동\n1470\t현대프라임\t서울특별시\t광진구\t구의동\n1476\t홍익\t서울특별시\t은평구\t신사동\n1477\t홍제원현대\t서울특별시\t서대문구\t홍제동\n1478\t화랑\t서울특별시\t영등포구\t여의도동\n1498\t올림픽훼밀리타운\t서울특별시\t송파구\t문정동\n1504\t현대5차\t서울특별시\t노원구\t중계동\n1505\t서강GS\t서울특별시\t마포구\t신정동\n1506\t명일LG\t서울특별시\t강동구\t명일동\n1511\t구로롯데\t서울특별시\t구로구\t구로동\n1519\t신도림현대\t서울특별시\t구로구\t구로동\n1600\t우성\t서울특별시\t구로구\t구로동\n1601\t한국현대\t서울특별시\t구로구\t구로동\n1610\t구일우성\t서울특별시\t구로구\t구로동\n1617\t서광\t서울특별시\t강남구\t삼성동\n1618\t수서한아름\t서울특별시\t강남구\t수서동\n1619\t미성1차\t서울특별시\t강남구\t압구정동\n1620\t미성2차\t서울특별시\t강남구\t압구정동\n1621\t한양1차\t서울특별시\t강남구\t압구정동\n1622\t한양3차\t서울특별시\t강남구\t압구정동\n1623\t한양5차\t서울특별시\t강남구\t압구정동\n1624\t일원우성7차\t서울특별시\t강남구\t일원동\n1625\t수서1단지\t서울특별시\t강남구\t일원동\n1626\t가람\t서울특별시\t강남구\t일원동\n1627\t한솔\t서울특별시\t강남구\t일원동\n1628\t청담공원삼성\t서울특별시\t강남구\t청담동\n1629\t청담현대3차\t서울특별시\t강남구\t청담동\n1891\t삼익그린맨션2차\t서울특별시\t강동구\t명일동\n1892\t고덕주공9단지\t서울특별시\t강동구\t명일동\n2086\t한강현대\t서울특별시\t강동구\t암사동\n2087\t천호삼성\t서울특별시\t강동구\t천호동\n2088\t천호태영\t서울특별시\t강동구\t천호동\n2169\t번동솔그린\t서울특별시\t강북구\t번동\n2170\t기산그린\t서울특별시\t강북구\t번동\n2171\t번동동문\t서울특별시\t강북구\t번동\n2172\t신원\t서울특별시\t강북구\t번동\n2173\t번동한진\t서울특별시\t강북구\t번동\n2259\t강나루현대\t서울특별시\t강서구\t가양동\n2260\t강변\t서울특별시\t강서구\t가양동\n2261\t우방\t서울특별시\t강서구\t가양동\n2262\t가양중앙하이츠\t서울특별시\t강서구\t가양동\n2263\t한사랑삼성2차\t서울특별시\t강서구\t등촌동\n2311\t등촌서광\t서울특별시\t강서구\t등촌동\n2313\t등촌코오롱\t서울특별시\t강서구\t등촌동\n2314\t한사랑삼성1차\t서울특별시\t강서구\t등촌동\n2316\t등촌주공8단지\t서울특별시\t강서구\t등촌동\n2317\t태영\t서울특별시\t강서구\t등촌동\n2318\t벽산\t서울특별시\t강서구\t마곡동\n2349\t한숲마을대림\t서울특별시\t강서구\t방화동\n2350\t도시개발12단지\t서울특별시\t강서구\t방화동\n2351\t장미\t서울특별시\t강서구\t방화동\n2405\t염창현대2차\t서울특별시\t강서구\t염창동\n2436\t성현동아\t서울특별시\t관악구\t봉천동\n2437\t봉천우성\t서울특별시\t관악구\t봉천동\n2457\t신림동부\t서울특별시\t관악구\t신림동\n2458\t현대\t서울특별시\t관악구\t신림동\n2487\t로얄동아\t서울특별시\t광진구\t자양동\n2488\t자양5차현대\t서울특별시\t광진구\t자양동\n2489\t한라\t서울특별시\t광진구\t자양동\n2490\t대동\t서울특별시\t광진구\t자양동\n2491\t우성1차\t서울특별시\t광진구\t자양동\n2492\t우성7차\t서울특별시\t광진구\t자양동\n2493\t자양한양\t서울특별시\t광진구\t자양동\n2494\t자양현대3차\t서울특별시\t광진구\t자양동\n2537\t개봉한진타운\t서울특별시\t구로구\t개봉동\n2573\t동아한신\t서울특별시\t구로구\t고척동\n2574\t산업인\t서울특별시\t구로구\t고척동\n2575\t센츄리\t서울특별시\t구로구\t고척동\n2576\t구로두산\t서울특별시\t구로구\t구로동\n2598\t극동\t서울특별시\t구로구\t구로동\n2599\t구로현대\t서울특별시\t구로구\t구로동\n2600\t럭키\t서울특별시\t구로구\t구로동\n2601\t보광\t서울특별시\t구로구\t구로동\n2615\t현대\t서울특별시\t구로구\t구로동\n2616\t이화우성\t서울특별시\t구로구\t구로동\n2617\t구로주공1차\t서울특별시\t구로구\t구로동\n2618\t중앙하이츠\t서울특별시\t구로구\t구로동\n2643\t신도림대림1,2차\t서울특별시\t구로구\t신도림동\n2644\t신도림동아1차\t서울특별시\t구로구\t신도림동\n2680\t동부골든\t서울특별시\t구로구\t오류동\n2681\t벽산1단지\t서울특별시\t금천구\t시흥동\n2720\t비선\t서울특별시\t노원구\t공릉동\n2721\t태강\t서울특별시\t노원구\t공릉동\n2722\t공릉우성아파트\t서울특별시\t노원구\t공릉동\n2759\t동신\t서울특별시\t노원구\t공릉동\n2760\t공릉2단지라이프\t서울특별시\t노원구\t공릉동\n2761\t공릉3단지라이프\t서울특별시\t노원구\t공릉동\n2762\t북부현대\t서울특별시\t노원구\t상계동\n2763\t성림\t서울특별시\t노원구\t상계동\n2764\t대동청솔\t서울특별시\t노원구\t상계동\n2765\t상계대림\t서울특별시\t노원구\t상계동\n2766\t미주동방벽운\t서울특별시\t노원구\t상계동\n2767\t미도\t서울특별시\t노원구\t상계동\n2768\t벽산\t서울특별시\t노원구\t상계동\n2769\t한강대우\t서울특별시\t용산구\t이촌동\n2770\t리버힐삼성\t서울특별시\t용산구\t산천동\n2771\t한강타운\t서울특별시\t용산구\t산천동\n2772\t강변삼성스위트\t서울특별시\t용산구\t원효로4가\n2773\t강촌\t서울특별시\t용산구\t이촌동\n2774\t경향파크\t서울특별시\t은평구\t구산동\n2775\t용마금호타운\t서울특별시\t중랑구\t면목동\n2776\t용마한신\t서울특별시\t중랑구\t면목동\n2777\t면목한신\t서울특별시\t중랑구\t면목동\n2778\t면목현대\t서울특별시\t중랑구\t면목동\n2779\t신내4단지\t서울특별시\t중랑구\t묵동\n2780\t신내5단지두산대림\t서울특별시\t중랑구\t묵동\n2781\t동부\t서울특별시\t중랑구\t상봉동\n2782\t건영1차\t서울특별시\t중랑구\t상봉동\n2783\t건영2차\t서울특별시\t중랑구\t상봉동\n2784\tLG쌍용\t서울특별시\t중랑구\t상봉동\n2803\t불암동아\t서울특별시\t노원구\t상계동\n2804\t상계현대1차\t서울특별시\t노원구\t상계동\n2805\t상계현대2차\t서울특별시\t노원구\t상계동\n2806\t상계신동아\t서울특별시\t노원구\t상계동\n2807\t임광\t서울특별시\t노원구\t상계동\n2808\t두산\t서울특별시\t노원구\t상계동\n2809\t상계주공10단지\t서울특별시\t노원구\t상계동\n2810\t상계주공11단지\t서울특별시\t노원구\t상계동\n2811\t상계주공12단지\t서울특별시\t노원구\t상계동\n2812\t이촌코오롱\t서울특별시\t용산구\t이촌동\n2813\t우방\t서울특별시\t은평구\t증산동\n2814\t아남\t서울특별시\t종로구\t명륜2가\n2815\t무악현대\t서울특별시\t종로구\t무악동\n2816\t창신쌍용2단지\t서울특별시\t종로구\t창신동\n2817\t남산타운\t서울특별시\t중구\t신당동\n2818\t약수하이츠\t서울특별시\t중구\t신당동\n2819\t신당삼성\t서울특별시\t중구\t신당동\n2820\t동성1,2차\t서울특별시\t중랑구\t신내동\n2821\t동성3차\t서울특별시\t중랑구\t신내동\n2822\t신내11단지대명\t서울특별시\t중랑구\t신내동\n2823\t신내6단지시영\t서울특별시\t중랑구\t신내동\n2824\t신내9단지진흥\t서울특별시\t중랑구\t신내동\n2825\t신내7단지진로\t서울특별시\t중랑구\t신내동\n2826\t중앙하이츠\t서울특별시\t중랑구\t신내동\n2827\t한신\t서울특별시\t중랑구\t중화동\n2840\t상계주공13단지\t서울특별시\t노원구\t상계동\n2841\t상계주공16단지\t서울특별시\t노원구\t상계동\n2842\t상계주공2단지\t서울특별시\t노원구\t상계동\n2843\t상계주공3단지\t서울특별시\t노원구\t상계동\n2844\t코오롱\t서울특별시\t송파구\t방이동\n2845\t올림픽선수기자촌\t서울특별시\t송파구\t방이동\n2846\t현대리버빌1지구\t서울특별시\t송파구\t풍납동\n2847\t현대리버빌2지구\t서울특별시\t송파구\t풍납동\n2848\t신정현대5차\t서울특별시\t양천구\t신정동\n2849\t목동우성2차\t서울특별시\t양천구\t신정동\n2850\t목동현대\t서울특별시\t양천구\t신정동\n2851\t강마을삼성\t서울특별시\t영등포구\t당산동\n2852\t진로\t서울특별시\t영등포구\t당산동1가\n2853\t한강\t서울특별시\t영등포구\t당산동4가\n2854\t문래공원한신\t서울특별시\t영등포구\t문래동3가\n2855\t남성맨션\t서울특별시\t영등포구\t문래동2가\n2856\t대원\t서울특별시\t영등포구\t문래동6가\n2857\t문래두산위브\t서울특별시\t영등포구\t문래동5가\n2858\t문래미원\t서울특별시\t영등포구\t문래동6가\n2859\t유원\t서울특별시\t영등포구\t문래동6가\n2860\t진주맨션\t서울특별시\t영등포구\t문래동5가\n2861\t현대3차\t서울특별시\t영등포구\t문래동5가\n2862\t현대5차\t서울특별시\t영등포구\t문래동5가\n2863\t문래현대6차\t서울특별시\t영등포구\t문래동6가\n2864\t베어스타운\t서울특별시\t영등포구\t문래동6가\n2865\t삼성래미안\t서울특별시\t영등포구\t양평동2가\n2866\t삼천리\t서울특별시\t영등포구\t양평동3가\n2868\t한솔\t서울특별시\t영등포구\t양평동6가\n2869\t공작\t서울특별시\t영등포구\t여의도동\n2870\t상계주공4단지\t서울특별시\t노원구\t상계동\n2871\t상계주공5단지\t서울특별시\t노원구\t상계동\n2872\t상계주공6단지\t서울특별시\t노원구\t상계동\n2873\t상계주공7단지\t서울특별시\t노원구\t상계동\n2874\t상계주공8단지\t서울특별시\t노원구\t상계동\n2875\t상계주공9단지\t서울특별시\t노원구\t상계동\n2876\t문정푸르지오1차\t서울특별시\t송파구\t문정동\n2877\t강변현대\t서울특별시\t송파구\t풍납동\n2878\t극동\t서울특별시\t송파구\t풍납동\n2879\t대아\t서울특별시\t송파구\t풍납동\n2880\t동아한가람\t서울특별시\t송파구\t풍납동\n2882\t씨티극동\t서울특별시\t송파구\t풍납동\n2883\t토성현대\t서울특별시\t송파구\t풍납동\n2884\t현대\t서울특별시\t양천구\t신정동\n2885\t현대5차\t서울특별시\t영등포구\t당산동4가\n2886\t당산효성1차\t서울특별시\t영등포구\t당산동5가\n2887\t우성1차\t서울특별시\t영등포구\t대림동\n2888\t남서울\t서울특별시\t영등포구\t신길동\n2889\t거성파스텔\t서울특별시\t영등포구\t양평동3가\n2890\t경남아너스빌1차\t서울특별시\t영등포구\t양평동3가\n2891\t상계중앙하이츠1차\t서울특별시\t노원구\t상계동\n2892\t한신1차\t서울특별시\t노원구\t상계동\n2893\t월계대우\t서울특별시\t노원구\t월계동\n2894\t월계주공2단지\t서울특별시\t노원구\t월계동\n2895\t청백3단지\t서울특별시\t노원구\t월계동\n2896\t청백4단지\t서울특별시\t노원구\t월계동\n2897\t사슴3단지\t서울특별시\t노원구\t월계동\n2898\t유원하나\t서울특별시\t서대문구\t홍제동\n2899\t청구1차\t서울특별시\t서대문구\t홍제동\n2900\t삼호4차\t서울특별시\t서초구\t방배동\n2901\t방배현대홈타운1차\t서울특별시\t서초구\t방배동\n2902\t신동아1차\t서울특별시\t서초구\t서초동\n2903\t신반포4차\t서울특별시\t서초구\t잠원동\n2904\t현대그린\t서울특별시\t성동구\t성수동1가\n2905\t청구강변\t서울특별시\t성동구\t성수동2가\n2906\t극동그린\t서울특별시\t성동구\t옥수동\n2907\t옥수삼성\t서울특별시\t성동구\t옥수동\n2908\t옥수하이츠\t서울특별시\t성동구\t옥수동\n2909\t한남하이츠\t서울특별시\t성동구\t옥수동\n2910\t신안파크\t서울특별시\t성북구\t길음동\n2911\t동소문현대\t서울특별시\t성북구\t돈암동\n2912\t범양\t서울특별시\t성북구\t돈암동\n2913\t돈암삼성\t서울특별시\t성북구\t돈암동\n2914\t돈암풍림\t서울특별시\t성북구\t돈암동\n2915\t한신한진\t서울특별시\t성북구\t돈암동\n2916\t미륭\t서울특별시\t송파구\t가락동\n2917\t가락쌍용2차\t서울특별시\t송파구\t가락동\n2918\t가락우성1차\t서울특별시\t송파구\t가락동\n2919\t성원4단지\t서울특별시\t노원구\t월계동\n2920\t초안1단지\t서울특별시\t노원구\t월계동\n2921\t대림벽산\t서울특별시\t노원구\t중계동\n2922\t중계무지개\t서울특별시\t노원구\t중계동\n2923\t삼성\t서울특별시\t노원구\t중계동\n"
+          }
+        ]
+      }
+    },
+    {
+      "title": "2. spark 스키마에 있는 테이블 확인한다.",
+      "text": "%sql\nshow tables from class\n-- class라는 db의 table 확인 ",
+      "user": "anonymous",
+      "dateUpdated": "2022-12-18T10:10:43+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/sql",
+        "fontSize": 9,
+        "title": true,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "database": "string",
+                      "tableName": "string",
+                      "isTemporary": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                }
+              },
+              "commonSetting": {}
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1671354983529_1451024828",
+      "id": "20181010-131714_965893710",
+      "dateCreated": "2022-12-18T09:16:23+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:186",
+      "dateFinished": "2022-12-18T10:10:44+0000",
+      "dateStarted": "2022-12-18T10:10:43+0000",
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "database\ttableName\tisTemporary\nclass\tdanji_csv\tfalse\nclass\tdanji_json\tfalse\nclass\tdanji_parquet\tfalse\nclass\tdanji_user_item_view_silver\tfalse\nclass\tdanji_user_view_silver\tfalse\n\tdanji_master\ttrue\n"
+          }
+        ]
+      }
+    },
+    {
+      "title": "3. Glue에 정의 되어 있는 테이블 테이블확인",
+      "text": "%sql\ndesc class.danji_user_view_silver\n-- table의 schema 정보 확인 ",
+      "user": "anonymous",
+      "dateUpdated": "2022-12-18T10:11:22+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/sql",
+        "fontSize": 9,
+        "title": true,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "col_name": "string",
+                      "data_type": "string",
+                      "comment": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                }
+              },
+              "commonSetting": {}
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1671354983529_271837719",
+      "id": "20181010-131758_996378101",
+      "dateCreated": "2022-12-18T09:16:23+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:187",
+      "dateFinished": "2022-12-18T10:11:06+0000",
+      "dateStarted": "2022-12-18T10:11:06+0000",
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "col_name\tdata_type\tcomment\nbase_dt\ttimestamp\tnull\nadid\tstring\tnull\ndanji_id\tint\tnull\nbase_date\tdate\tnull\n# Partition Information\t\t\n# col_name\tdata_type\tcomment\nbase_date\tdate\tnull\n"
+          }
+        ]
+      }
+    },
+    {
+      "title": "4. danji_master 테이블확인",
+      "text": "%sql\ndesc danji_master\n",
+      "user": "anonymous",
+      "dateUpdated": "2022-12-18T10:11:22+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/sql",
+        "fontSize": 9,
+        "title": true,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "col_name": "string",
+                      "data_type": "string",
+                      "comment": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                }
+              },
+              "commonSetting": {}
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1671354983529_275087045",
+      "id": "20181010-132142_687104021",
+      "dateCreated": "2022-12-18T09:16:23+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:188",
+      "dateFinished": "2022-12-18T10:11:22+0000",
+      "dateStarted": "2022-12-18T10:11:22+0000",
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "col_name\tdata_type\tcomment\nid\tint\tnull\ndanji_name\tstring\tnull\nsido\tstring\tnull\nsigungu\tstring\tnull\ndong\tstring\tnull\n"
+          }
+        ]
+      }
+    },
+    {
+      "title": "5. Glue에 정의 된 테이블과 RDS master 테이블 Join",
+      "text": "%sql\nselect a.base_date, \n       a.danji_id, \n       b.danji_name,\n       b.sido,\n       b.sigungu,\n       b.dong,\n       count(*) as view_count\nfrom class.danji_user_view_silver a \njoin danji_master b\non a.danji_id = b.id \ngroup by a.base_date, \n       a.danji_id, \n       b.danji_name,\n       b.sido,\n       b.sigungu,\n       b.dong\n-- glue에서 정의한 테이블과 rds에 있는 테이블 id로 조인 ",
+      "user": "anonymous",
+      "dateUpdated": "2022-12-18T10:12:15+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/sql",
+        "editorHide": false,
+        "fontSize": 9,
+        "title": true,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "base_date": "string",
+                      "danji_id": "string",
+                      "danji_name": "string",
+                      "sido": "string",
+                      "sigungu": "string",
+                      "dong": "string",
+                      "view_count": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                }
+              },
+              "commonSetting": {}
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://ip-172-31-38-97.ap-northeast-2.compute.internal:4040/jobs/job?id=7",
+              "$$hashKey": "object:7115"
+            },
+            {
+              "jobUrl": "http://ip-172-31-38-97.ap-northeast-2.compute.internal:4040/jobs/job?id=8",
+              "$$hashKey": "object:7116"
+            },
+            {
+              "jobUrl": "http://ip-172-31-38-97.ap-northeast-2.compute.internal:4040/jobs/job?id=9",
+              "$$hashKey": "object:7117"
+            },
+            {
+              "jobUrl": "http://ip-172-31-38-97.ap-northeast-2.compute.internal:4040/jobs/job?id=10",
+              "$$hashKey": "object:7118"
+            },
+            {
+              "jobUrl": "http://ip-172-31-38-97.ap-northeast-2.compute.internal:4040/jobs/job?id=11",
+              "$$hashKey": "object:7119"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1671354983529_1812602969",
+      "id": "20181010-131010_1970714607",
+      "dateCreated": "2022-12-18T09:16:23+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:189",
+      "dateFinished": "2022-12-18T10:11:48+0000",
+      "dateStarted": "2022-12-18T10:11:37+0000",
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "base_date\tdanji_id\tdanji_name\tsido\tsigungu\tdong\tview_count\n2018-01-26\t2783\t건영2차\t서울특별시\t중랑구\t상봉동\t14\n2018-01-26\t2763\t성림\t서울특별시\t노원구\t상계동\t4\n2018-01-26\t1281\t구로한신1차\t서울특별시\t구로구\t구로동\t11\n2018-01-26\t2765\t상계대림\t서울특별시\t노원구\t상계동\t3\n2018-01-26\t1478\t화랑\t서울특별시\t영등포구\t여의도동\t6\n2018-01-26\t2782\t건영1차\t서울특별시\t중랑구\t상봉동\t5\n2018-01-26\t1458\t현대8단지\t서울특별시\t광진구\t광장동\t4\n2018-01-26\t206\t대림경동\t서울특별시\t강서구\t가양동\t2\n2018-01-26\t118\t극동\t서울특별시\t도봉구\t도봉동\t4\n2018-01-26\t1412\t현대우성\t서울특별시\t노원구\t하계동\t9\n2018-01-26\t240\t대우효령\t서울특별시\t서초구\t방배동\t6\n2018-01-26\t2780\t신내5단지두산대림\t서울특별시\t중랑구\t묵동\t7\n2018-01-26\t2768\t벽산\t서울특별시\t노원구\t상계동\t8\n2018-01-26\t2487\t로얄동아\t서울특별시\t광진구\t자양동\t11\n2018-01-26\t2915\t한신한진\t서울특별시\t성북구\t돈암동\t34\n2018-01-26\t771\t신성수정\t서울특별시\t은평구\t신사동\t6\n2018-01-26\t1242\t한강우성\t서울특별시\t광진구\t자양동\t20\n2018-01-26\t2491\t우성1차\t서울특별시\t광진구\t자양동\t13\n2018-01-26\t731\t신동아\t서울특별시\t영등포구\t양평동1가\t12\n2018-01-26\t1282\t한신\t서울특별시\t금천구\t독산동\t9\n2018-01-26\t219\t대림역삼\t서울특별시\t강남구\t역삼동\t7\n2018-01-26\t363\t목동신시가지6단지\t서울특별시\t양천구\t목동\t8\n2018-01-26\t334\t라인\t서울특별시\t강동구\t길동\t5\n2018-01-26\t201\t등촌대림\t서울특별시\t강서구\t등촌동\t2\n2018-01-26\t1240\t한강삼성\t서울특별시\t마포구\t토정동\t10\n2018-01-26\t1619\t미성1차\t서울특별시\t강남구\t압구정동\t3\n2018-01-26\t1623\t한양5차\t서울특별시\t강남구\t압구정동\t2\n2018-01-26\t1050\t주공고층3단지\t서울특별시\t강동구\t둔촌동\t4\n2018-01-26\t1199\t씨티\t서울특별시\t은평구\t신사동\t4\n2018-01-26\t653\t성원2차\t서울특별시\t양천구\t목동\t2\n2018-01-26\t2618\t중앙하이츠\t서울특별시\t구로구\t구로동\t7\n2018-01-26\t2811\t상계주공12단지\t서울특별시\t노원구\t상계동\t6\n2018-01-26\t1397\t현대\t서울특별시\t송파구\t잠실동\t3\n2018-01-26\t830\t역삼럭키\t서울특별시\t강남구\t도곡동\t8\n2018-01-26\t193\t가락대림\t서울특별시\t송파구\t가락동\t7\n2018-01-26\t2908\t옥수하이츠\t서울특별시\t성동구\t옥수동\t16\n2018-01-26\t2820\t동성1,2차\t서울특별시\t중랑구\t신내동\t2\n2018-01-26\t326\t두산\t서울특별시\t성북구\t석관동\t19\n2018-01-26\t81\t공덕현대\t서울특별시\t마포구\t공덕동\t4\n2018-01-26\t438\t반도\t서울특별시\t용산구\t이촌동\t2\n2018-01-26\t1007\t이태원주공\t서울특별시\t용산구\t이태원동\t8\n2018-01-26\t1266\t한성\t서울특별시\t동작구\t신대방동\t4\n2018-01-26\t300\t거여2단지효성동아\t서울특별시\t송파구\t거여동\t8\n2018-01-26\t2882\t씨티극동\t서울특별시\t송파구\t풍납동\t10\n2018-01-26\t48\t건영1차\t서울특별시\t금천구\t시흥동\t8\n2018-01-26\t894\t신길우성1차\t서울특별시\t영등포구\t신길동\t15\n2018-01-26\t483\t산장\t서울특별시\t성북구\t정릉동\t4\n2018-01-26\t1279\t개포한신\t서울특별시\t강남구\t일원동\t3\n2018-01-26\t291\t동아\t서울특별시\t강동구\t둔촌동\t5\n2018-01-26\t2644\t신도림동아1차\t서울특별시\t구로구\t신도림동\t7\n2018-01-26\t1436\t현대3차\t서울특별시\t강동구\t둔촌동\t6\n2018-01-26\t1339\t한양5차\t서울특별시\t도봉구\t쌍문동\t2\n2018-01-26\t53\t건영2차\t서울특별시\t노원구\t중계동\t3\n2018-01-26\t1421\t현대2차\t서울특별시\t영등포구\t대림동\t1\n2018-01-26\t1214\t풍납현대\t서울특별시\t송파구\t풍납동\t7\n2018-01-26\t1335\t한양2차\t서울특별시\t송파구\t송파동\t1\n2018-01-26\t879\t응암우성\t서울특별시\t은평구\t응암동\t3\n2018-01-26\t770\t뉴신사신성\t서울특별시\t은평구\t신사동\t2\n2018-01-26\t1435\t현대3차\t서울특별시\t강남구\t개포동\t4\n2018-01-26\t90\t광장\t서울특별시\t영등포구\t여의도동\t3\n2018-01-26\t547\t삼익선경\t서울특별시\t노원구\t하계동\t1\n2018-01-26\t598\t상아2차\t서울특별시\t송파구\t오금동\t2\n2018-01-26\t722\t신동아\t서울특별시\t강동구\t명일동\t4\n2018-01-26\t2843\t상계주공3단지\t서울특별시\t노원구\t상계동\t10\n2018-01-26\t642\t성안마을청구\t서울특별시\t강동구\t성내동\t21\n2018-01-26\t588\t상록수\t서울특별시\t강남구\t일원동\t7\n2018-01-26\t43\t건영\t서울특별시\t송파구\t문정동\t13\n2018-01-26\t549\t삼익가든\t서울특별시\t강동구\t명일동\t15\n2018-01-26\t425\t미성맨션\t서울특별시\t송파구\t풍납동\t2\n2018-01-26\t1357\t한신\t서울특별시\t영등포구\t양평동5가\t9\n2018-01-26\t621\t유원서초\t서울특별시\t서초구\t서초동\t9\n2018-01-26\t2905\t청구강변\t서울특별시\t성동구\t성수동2가\t8\n2018-01-26\t1367\t현대\t서울특별시\t중구\t신당동\t14\n2018-01-26\t1438\t현대3차\t서울특별시\t송파구\t거여동\t3\n2018-01-26\t541\t삼익\t서울특별시\t강동구\t천호동\t8\n2018-01-26\t135\t금천현대\t서울특별시\t금천구\t독산동\t38\n2018-01-26\t283\t동성\t서울특별시\t강서구\t방화동\t4\n2018-01-26\t1259\t한라\t서울특별시\t영등포구\t도림동\t7\n2018-01-26\t540\t삼익\t서울특별시\t강남구\t청담동\t6\n2018-01-26\t873\t우성\t서울특별시\t마포구\t도화동\t18\n2018-01-26\t1234\t한가람\t서울특별시\t용산구\t이촌동\t38\n2018-01-26\t946\t은마\t서울특별시\t강남구\t대치동\t15\n2018-01-26\t100\t신반포궁전\t서울특별시\t서초구\t반포동\t6\n2018-01-26\t1445\t상계현대4차\t서울특별시\t노원구\t상계동\t2\n2018-01-26\t1021\t상계주공14단지\t서울특별시\t노원구\t상계동\t7\n2018-01-26\t1135\t청구\t서울특별시\t강남구\t삼성동\t1\n2018-01-26\t530\t가락삼익맨숀\t서울특별시\t송파구\t송파동\t5\n2018-01-26\t5\t강변현대\t서울특별시\t성동구\t성수동2가\t3\n2018-01-26\t2170\t기산그린\t서울특별시\t강북구\t번동\t3\n2018-01-26\t346\t매봉삼성\t서울특별시\t강남구\t도곡동\t3\n2018-01-26\t637\t선경종암\t서울특별시\t성북구\t종암동\t3\n2018-01-26\t1406\t현대1차\t서울특별시\t강남구\t개포동\t1\n2018-01-26\t1053\t창동주공3단지\t서울특별시\t도봉구\t창동\t38\n2018-01-26\t2617\t구로주공1차\t서울특별시\t구로구\t구로동\t6\n2018-01-26\t1411\t현대1차\t서울특별시\t강서구\t염창동\t8\n2018-01-26\t814\t아남\t서울특별시\t강동구\t고덕동\t3\n2018-01-26\t87\t광나루현대\t서울특별시\t광진구\t광장동\t8\n2018-01-26\t187\t대동\t서울특별시\t노원구\t월계동\t2\n2018-01-26\t1506\t명일LG\t서울특별시\t강동구\t명일동\t11\n2018-01-26\t64\t반포경남\t서울특별시\t서초구\t반포동\t8\n2018-01-26\t741\t신동아1,2차\t서울특별시\t강동구\t길동\t15\n2018-01-26\t1387\t현대\t서울특별시\t구로구\t신도림동\t5\n2018-01-26\t2086\t한강현대\t서울특별시\t강동구\t암사동\t8\n2018-01-26\t1498\t올림픽훼밀리타운\t서울특별시\t송파구\t문정동\t28\n2018-01-26\t356\t목동신시가지12단지\t서울특별시\t양천구\t신정동\t3\n2018-01-26\t1083\t개포주공7단지\t서울특별시\t강남구\t개포동\t5\n2018-01-26\t869\t천호우성\t서울특별시\t강동구\t천호동\t11\n2018-01-26\t817\t아남\t서울특별시\t송파구\t오금동\t6\n2018-01-26\t130\t극동늘푸른\t서울특별시\t양천구\t목동\t2\n2018-01-26\t2875\t상계주공9단지\t서울특별시\t노원구\t상계동\t14\n2018-01-26\t427\t라이프미성\t서울특별시\t은평구\t불광동\t10\n2018-01-26\t728\t신동아\t서울특별시\t성동구\t응봉동\t7\n2018-01-26\t738\t논현신동아파밀리에\t서울특별시\t강남구\t논현동\t19\n2018-01-26\t371\t목화\t서울특별시\t영등포구\t여의도동\t6\n2018-01-26\t1389\t현대\t서울특별시\t동작구\t사당동\t8\n2018-01-26\t44\t건영\t서울특별시\t영등포구\t신길동\t2\n2018-01-26\t860\t올림픽베어스타운\t서울특별시\t송파구\t방이동\t3\n2018-01-26\t542\t방화4단지\t서울특별시\t강서구\t방화동\t2\n2018-01-26\t2898\t유원하나\t서울특별시\t서대문구\t홍제동\t4\n2018-01-26\t362\t목동신시가지5단지\t서울특별시\t양천구\t목동\t5\n2018-01-26\t506\t삼성\t서울특별시\t마포구\t도화동\t12\n2018-01-26\t489\t삼두\t서울특별시\t영등포구\t신길동\t14\n2018-01-26\t915\t우성8차\t서울특별시\t강남구\t개포동\t2\n2018-01-26\t892\t우성1차\t서울특별시\t동작구\t신대방동\t8\n2018-01-26\t1227\t풍전\t서울특별시\t용산구\t원효로4가\t7\n2018-01-26\t1109\t중앙하이츠\t서울특별시\t성북구\t석관동\t6\n2018-01-26\t2350\t도시개발12단지\t서울특별시\t강서구\t방화동\t9\n2018-01-26\t743\t신동아2단지\t서울특별시\t도봉구\t방학동\t2\n2018-01-26\t1439\t현대3차\t서울특별시\t영등포구\t당산동4가\t6\n2018-01-26\t679\t수정\t서울특별시\t영등포구\t여의도동\t6\n2018-01-26\t34\t개포한신\t서울특별시\t강남구\t도곡동\t6\n2018-01-26\t1407\t현대\t서울특별시\t강남구\t대치동\t8\n2018-01-26\t52\t건영2차\t서울특별시\t금천구\t시흥동\t3\n2018-01-26\t1476\t홍익\t서울특별시\t은평구\t신사동\t5\n2018-01-26\t1628\t청담공원삼성\t서울특별시\t강남구\t청담동\t6\n2018-01-26\t158\t까치마을\t서울특별시\t강남구\t수서동\t16\n2018-01-26\t1443\t현대4차\t서울특별시\t강남구\t일원동\t5\n2018-01-26\t2776\t용마한신\t서울특별시\t중랑구\t면목동\t5\n2018-01-26\t154\t길훈\t서울특별시\t양천구\t신월동\t1\n2018-01-26\t1892\t고덕주공9단지\t서울특별시\t강동구\t명일동\t10\n2018-01-26\t55\t건영3차\t서울특별시\t노원구\t중계동\t5\n2018-01-26\t2879\t대아\t서울특별시\t송파구\t풍납동\t2\n2018-01-26\t152\t길훈\t서울특별시\t구로구\t개봉동\t2\n2018-01-26\t2351\t장미\t서울특별시\t강서구\t방화동\t3\n2018-01-26\t214\t대림2차\t서울특별시\t성동구\t응봉동\t5\n2018-01-26\t441\t배재현대\t서울특별시\t강동구\t고덕동\t8\n2018-01-26\t1325\t한양\t서울특별시\t강동구\t명일동\t3\n2018-01-26\t2600\t럭키\t서울특별시\t구로구\t구로동\t1\n2018-01-26\t1301\t신반포22차\t서울특별시\t서초구\t잠원동\t1\n2018-01-26\t710\t장미\t서울특별시\t노원구\t하계동\t5\n2018-01-26\t2575\t센츄리\t서울특별시\t구로구\t고척동\t1\n2018-01-26\t1265\t공릉한보\t서울특별시\t노원구\t공릉동\t2\n2018-01-26\t259\t가양성지2단지\t서울특별시\t강서구\t가양동\t11\n2018-01-26\t2900\t삼호4차\t서울특별시\t서초구\t방배동\t5\n2018-01-26\t1291\t신반포12차\t서울특별시\t서초구\t잠원동\t5\n2018-01-26\t231\t창동대우\t서울특별시\t도봉구\t창동\t11\n2018-01-26\t1333\t한양1차\t서울특별시\t송파구\t송파동\t8\n2018-01-26\t701\t문정시영\t서울특별시\t송파구\t문정동\t64\n2018-01-26\t2906\t극동그린\t서울특별시\t성동구\t옥수동\t9\n2018-01-26\t79\t고덕삼환\t서울특별시\t강동구\t명일동\t3\n2018-01-26\t898\t대치래미안하이스턴\t서울특별시\t강남구\t대치동\t5\n2018-01-26\t478\t부영\t서울특별시\t강서구\t등촌동\t6\n2018-01-26\t707\t거여4단지\t서울특별시\t송파구\t거여동\t7\n2018-01-26\t565\t상도삼호\t서울특별시\t동작구\t상도동\t8\n2018-01-26\t495\t돈암삼부\t서울특별시\t성북구\t길음동\t7\n2018-01-26\t2918\t가락우성1차\t서울특별시\t송파구\t가락동\t11\n2018-01-26\t1337\t한양2,3,4차\t서울특별시\t도봉구\t쌍문동\t23\n2018-01-26\t914\t우성6차\t서울특별시\t강남구\t개포동\t6\n2018-01-26\t1065\t중계주공4단지\t서울특별시\t노원구\t중계동\t3\n2018-01-26\t304\t염창동아3차\t서울특별시\t강서구\t염창동\t6\n2018-01-26\t2850\t목동현대\t서울특별시\t양천구\t신정동\t16\n2018-01-26\t260\t방화5단지\t서울특별시\t강서구\t방화동\t12\n2018-01-26\t659\t성지\t서울특별시\t송파구\t송파동\t5\n2018-01-26\t1069\t잠실주공5단지\t서울특별시\t송파구\t잠실동\t24\n2018-01-26\t1444\t둔촌현대4차\t서울특별시\t강동구\t둔촌동\t5\n2018-01-26\t645\t성원\t서울특별시\t동작구\t대방동\t3\n2018-01-26\t580\t영등포삼환\t서울특별시\t영등포구\t영등포동8가\t10\n2018-01-26\t2762\t북부현대\t서울특별시\t노원구\t상계동\t3\n2018-01-26\t773\t신안동진\t서울특별시\t노원구\t중계동\t3\n2018-01-26\t2853\t한강\t서울특별시\t영등포구\t당산동4가\t3\n2018-01-26\t382\t무지개\t서울특별시\t금천구\t시흥동\t4\n2018-01-26\t1382\t현대\t서울특별시\t강동구\t길동\t4\n2018-01-26\t1289\t신반포10차\t서울특별시\t서초구\t잠원동\t8\n2018-01-26\t2576\t구로두산\t서울특별시\t구로구\t구로동\t19\n2018-01-26\t2489\t한라\t서울특별시\t광진구\t자양동\t5\n2018-01-26\t137\t신림금호타운2차\t서울특별시\t관악구\t신림동\t5\n2018-01-26\t2773\t강촌\t서울특별시\t용산구\t이촌동\t8\n2018-01-26\t2869\t공작\t서울특별시\t영등포구\t여의도동\t6\n2018-01-26\t649\t북한강\t서울특별시\t용산구\t이촌동\t2\n2018-01-26\t1326\t번동한양\t서울특별시\t강북구\t번동\t1\n2018-01-26\t804\t가락쌍용1차\t서울특별시\t송파구\t가락동\t12\n2018-01-26\t1052\t등촌주공3단지\t서울특별시\t강서구\t등촌동\t15\n2018-01-26\t2855\t남성맨션\t서울특별시\t영등포구\t문래동2가\t11\n2018-01-26\t709\t거여5단지\t서울특별시\t송파구\t거여동\t6\n2018-01-26\t831\t역삼우성\t서울특별시\t강남구\t도곡동\t7\n2018-01-26\t261\t가양6단지\t서울특별시\t강서구\t가양동\t14\n2018-01-26\t314\t동익미라벨\t서울특별시\t도봉구\t쌍문동\t5\n2018-01-26\t4\t강변우성\t서울특별시\t광진구\t구의동\t10\n2018-01-26\t1111\t중앙하이츠\t서울특별시\t강동구\t암사동\t8\n2018-01-26\t2818\t약수하이츠\t서울특별시\t중구\t신당동\t35\n2018-01-26\t1114\t중앙하이츠\t서울특별시\t강동구\t천호동\t6\n2018-01-26\t2813\t우방\t서울특별시\t은평구\t증산동\t10\n2018-01-26\t546\t신촌삼익\t서울특별시\t마포구\t신수동\t8\n2018-01-26\t324\t두산위브\t서울특별시\t금천구\t가산동\t15\n2018-01-26\t301\t포스코더샵\t서울특별시\t강남구\t대치동\t5\n2018-01-26\t1241\t성원\t서울특별시\t광진구\t자양동\t4\n2018-01-26\t617\t서울가든\t서울특별시\t도봉구\t도봉동\t4\n2018-01-26\t35\t방화개화\t서울특별시\t강서구\t방화동\t2\n2018-01-26\t917\t우성그린\t서울특별시\t동대문구\t답십리동\t3\n2018-01-26\t2806\t상계신동아\t서울특별시\t노원구\t상계동\t2\n2018-01-26\t119\t극동\t서울특별시\t도봉구\t방학동\t1\n2018-01-26\t1319\t잠원훼미리\t서울특별시\t서초구\t잠원동\t1\n2018-01-26\t121\t신답극동\t서울특별시\t동대문구\t답십리동\t9\n2018-01-26\t1064\t번동주공4단지\t서울특별시\t강북구\t번동\t9\n2018-01-26\t208\t대림\t서울특별시\t양천구\t신정동\t3\n2018-01-26\t424\t미성\t서울특별시\t송파구\t신천동\t7\n2018-01-26\t895\t우성2단지\t서울특별시\t동작구\t사당동\t44\n2018-01-26\t508\t당산삼성2차\t서울특별시\t영등포구\t당산동4가\t5\n2018-01-26\t86\t현대\t서울특별시\t관악구\t봉천동\t24\n2018-01-26\t2897\t사슴3단지\t서울특별시\t노원구\t월계동\t7\n2018-01-26\t276\t동부센트레빌\t서울특별시\t강남구\t역삼동\t6\n2018-01-26\t1437\t상계현대3차\t서울특별시\t노원구\t상계동\t5\n2018-01-26\t2262\t가양중앙하이츠\t서울특별시\t강서구\t가양동\t2\n2018-01-26\t2810\t상계주공11단지\t서울특별시\t노원구\t상계동\t9\n2018-01-26\t1075\t등촌주공5단지\t서울특별시\t강서구\t등촌동\t12\n2018-01-26\t2878\t극동\t서울특별시\t송파구\t풍납동\t6\n2018-01-26\t2848\t신정현대5차\t서울특별시\t양천구\t신정동\t2\n2018-01-26\t2774\t경향파크\t서울특별시\t은평구\t구산동\t7\n2018-01-26\t56\t건영4차\t서울특별시\t관악구\t신림동\t5\n2018-01-26\t484\t산호\t서울특별시\t용산구\t원효로4가\t9\n2018-01-26\t166\t남산대림\t서울특별시\t용산구\t이태원동\t12\n2018-01-26\t564\t삼호\t서울특별시\t구로구\t개봉동\t3\n2018-01-26\t504\t삼성\t서울특별시\t광진구\t자양동\t10\n2018-01-26\t726\t신동아\t서울특별시\t동작구\t신대방동\t16\n2018-01-26\t1088\t중계주공8단지\t서울특별시\t노원구\t중계동\t1\n2018-01-26\t2887\t우성1차\t서울특별시\t영등포구\t대림동\t1\n2018-01-26\t244\t대원그린\t서울특별시\t도봉구\t방학동\t1\n2018-01-26\t494\t행당삼부\t서울특별시\t성동구\t행당동\t19\n2018-01-26\t2405\t염창현대2차\t서울특별시\t강서구\t염창동\t4\n2018-01-26\t1459\t현대9단지\t서울특별시\t광진구\t광장동\t2\n2018-01-26\t2088\t천호태영\t서울특별시\t강동구\t천호동\t10\n2018-01-26\t2868\t한솔\t서울특별시\t영등포구\t양평동6가\t1\n2018-01-26\t211\t대림1차\t서울특별시\t성동구\t응봉동\t9\n2018-01-26\t91\t청구\t서울특별시\t광진구\t광장동\t7\n2018-01-26\t1384\t현대\t서울특별시\t강동구\t천호동\t7\n2018-01-26\t365\t목동신시가지9단지\t서울특별시\t양천구\t신정동\t3\n2018-01-26\t594\t사당휴먼시아\t서울특별시\t동작구\t사당동\t14\n2018-01-26\t2919\t성원4단지\t서울특별시\t노원구\t월계동\t7\n2018-01-26\t1622\t한양3차\t서울특별시\t강남구\t압구정동\t3\n2018-01-26\t1068\t중계주공5단지\t서울특별시\t노원구\t중계동\t17\n2018-01-26\t195\t대림\t서울특별시\t송파구\t오금동\t5\n2018-01-26\t345\t마포현대\t서울특별시\t마포구\t공덕동\t6\n2018-01-26\t2854\t문래공원한신\t서울특별시\t영등포구\t문래동3가\t11\n2018-01-26\t2601\t보광\t서울특별시\t구로구\t구로동\t5\n2018-01-26\t1195\t태진아름\t서울특별시\t강서구\t등촌동\t1\n2018-01-26\t1440\t현대3차\t서울특별시\t영등포구\t대림동\t17\n2018-01-26\t1207\t당산쌍용예가클래식\t서울특별시\t영등포구\t당산동3가\t12\n2018-01-26\t416\t미륭미성삼호3차\t서울특별시\t노원구\t월계동\t6\n2018-01-26\t980\t워커힐푸르지오\t서울특별시\t광진구\t광장동\t16\n2018-01-26\t1413\t현대\t서울특별시\t서초구\t서초동\t6\n2018-01-26\t908\t우성4차\t서울특별시\t송파구\t잠실동\t6\n2018-01-26\t359\t목동신시가지2단지\t서울특별시\t양천구\t목동\t2\n2018-01-26\t2903\t신반포4차\t서울특별시\t서초구\t잠원동\t7\n2018-01-26\t1285\t한신\t서울특별시\t동대문구\t장안동\t3\n2018-01-26\t2807\t임광\t서울특별시\t노원구\t상계동\t7\n2018-01-26\t1267\t한성\t서울특별시\t영등포구\t신길동\t5\n2018-01-26\t1627\t한솔\t서울특별시\t강남구\t일원동\t5\n2018-01-26\t1296\t신반포17차\t서울특별시\t서초구\t잠원동\t1\n2018-01-26\t1465\t현대\t서울특별시\t구로구\t구로동\t6\n2018-01-26\t1327\t한양\t서울특별시\t노원구\t상계동\t1\n2018-01-26\t262\t가양9단지\t서울특별시\t강서구\t가양동\t17\n2018-01-26\t2772\t강변삼성스위트\t서울특별시\t용산구\t원효로4가\t8\n2018-01-26\t2681\t벽산1단지\t서울특별시\t금천구\t시흥동\t8\n2018-01-26\t708\t공릉삼익4단지\t서울특별시\t노원구\t공릉동\t9\n2018-01-26\t315\t동인\t서울특별시\t구로구\t개봉동\t4\n2018-01-26\t1130\t유원\t서울특별시\t강동구\t천호동\t4\n2018-01-26\t528\t삼익\t서울특별시\t서초구\t방배동\t5\n2018-01-26\t2349\t한숲마을대림\t서울특별시\t강서구\t방화동\t4\n2018-01-26\t1175\t코오롱\t서울특별시\t서초구\t우면동\t7\n2018-01-26\t423\t미성맨션\t서울특별시\t서대문구\t홍은동\t5\n2018-01-26\t932\t유원\t서울특별시\t도봉구\t도봉동\t4\n2018-01-26\t1433\t광장현대3단지\t서울특별시\t광진구\t광장동\t14\n2018-01-26\t1262\t한마을\t서울특별시\t구로구\t개봉동\t11\n2018-01-26\t1144\t도림청구\t서울특별시\t영등포구\t도림동\t17\n2018-01-26\t176\t벽산늘푸른\t서울특별시\t강서구\t염창동\t2\n2018-01-26\t2615\t현대\t서울특별시\t구로구\t구로동\t3\n2018-01-26\t248\t대청\t서울특별시\t강남구\t개포동\t12\n2018-01-26\t2909\t한남하이츠\t서울특별시\t성동구\t옥수동\t8\n2018-01-26\t2885\t현대5차\t서울특별시\t영등포구\t당산동4가\t6\n2018-01-26\t909\t신길우성4차\t서울특별시\t영등포구\t신길동\t8\n2018-01-26\t1351\t한진타운\t서울특별시\t성동구\t성수동1가\t1\n2018-01-26\t2904\t현대그린\t서울특별시\t성동구\t성수동1가\t19\n2018-01-26\t693\t정릉스카이쌍용\t서울특별시\t성북구\t정릉동\t10\n2018-01-26\t2778\t면목현대\t서울특별시\t중랑구\t면목동\t8\n2018-01-26\t730\t신동아\t서울특별시\t송파구\t풍납동\t4\n2018-01-26\t263\t독립문삼호\t서울특별시\t서대문구\t영천동\t1\n2018-01-26\t1346\t현대\t서울특별시\t영등포구\t당산동2가\t7\n2018-01-26\t529\t삼익\t서울특별시\t성북구\t안암동3가\t8\n2018-01-26\t534\t삼익\t서울특별시\t용산구\t이촌동\t3\n2018-01-26\t906\t염창우성3차\t서울특별시\t강서구\t염창동\t7\n2018-01-26\t727\t신동아\t서울특별시\t서초구\t방배동\t10\n2018-01-26\t313\t동익\t서울특별시\t강남구\t수서동\t7\n2018-01-26\t1237\t한강극동\t서울특별시\t광진구\t자양동\t3\n2018-01-26\t1123\t진주\t서울특별시\t영등포구\t여의도동\t9\n2018-01-26\t426\t미성\t서울특별시\t영등포구\t여의도동\t2\n2018-01-26\t600\t상우\t서울특별시\t구로구\t개봉동\t3\n2018-01-26\t62\t방화경남\t서울특별시\t강서구\t방화동\t3\n2018-01-26\t532\t삼익\t서울특별시\t영등포구\t당산동3가\t4\n2018-01-26\t463\t양평벽산블루밍\t서울특별시\t영등포구\t양평동2가\t10\n2018-01-26\t2914\t돈암풍림\t서울특별시\t성북구\t돈암동\t9\n2018-01-26\t1470\t현대프라임\t서울특별시\t광진구\t구의동\t33\n2018-01-26\t1316\t한신서래\t서울특별시\t서초구\t반포동\t17\n2018-01-26\t2859\t유원\t서울특별시\t영등포구\t문래동6가\t5\n2018-01-26\t1138\t청구\t서울특별시\t구로구\t고척동\t1\n2018-01-26\t724\t신동아\t서울특별시\t강서구\t염창동\t3\n2018-01-26\t1504\t현대5차\t서울특별시\t노원구\t중계동\t2\n2018-01-26\t2912\t범양\t서울특별시\t성북구\t돈암동\t11\n2018-01-26\t1462\t현대그린\t서울특별시\t서대문구\t홍제동\t9\n2018-01-26\t2817\t남산타운\t서울특별시\t중구\t신당동\t24\n2018-01-26\t805\t쌍용\t서울특별시\t송파구\t풍납동\t3\n2018-01-26\t1429\t현대2차\t서울특별시\t강남구\t개포동\t4\n2018-01-26\t1196\t태진한솔\t서울특별시\t강서구\t염창동\t5\n2018-01-26\t360\t목동신시가지3단지\t서울특별시\t양천구\t목동\t2\n2018-01-26\t905\t우성3차\t서울특별시\t강남구\t개포동\t2\n2018-01-26\t335\t라인\t서울특별시\t강서구\t등촌동\t3\n2018-01-26\t1430\t현대2차\t서울특별시\t강남구\t청담동\t2\n2018-01-26\t1300\t신반포21차\t서울특별시\t서초구\t잠원동\t2\n2018-01-26\t803\t성수동아그린\t서울특별시\t성동구\t성수동1가\t4\n2018-01-26\t766\t현대\t서울특별시\t강남구\t압구정동\t3\n2018-01-26\t1258\t우면한라\t서울특별시\t서초구\t우면동\t5\n2018-01-26\t2864\t베어스타운\t서울특별시\t영등포구\t문래동6가\t2\n2018-01-26\t889\t우성1차\t서울특별시\t구로구\t신도림동\t1\n2018-01-26\t2680\t동부골든\t서울특별시\t구로구\t오류동\t8\n2018-01-26\t1137\t둔촌역청구\t서울특별시\t강동구\t성내동\t7\n2018-01-26\t1299\t신반포20차\t서울특별시\t서초구\t잠원동\t3\n2018-01-26\t903\t우성3단지\t서울특별시\t동작구\t사당동\t8\n2018-01-26\t2922\t중계무지개\t서울특별시\t노원구\t중계동\t13\n2018-01-26\t1147\t현대\t서울특별시\t동대문구\t청량리동\t9\n2018-01-26\t578\t가락삼환\t서울특별시\t송파구\t가락동\t7\n2018-01-26\t2771\t한강타운\t서울특별시\t용산구\t산천동\t8\n2018-01-26\t2770\t리버힐삼성\t서울특별시\t용산구\t산천동\t19\n2018-01-26\t924\t우창\t서울특별시\t영등포구\t신길동\t3\n2018-01-26\t2809\t상계주공10단지\t서울특별시\t노원구\t상계동\t12\n2018-01-26\t1330\t한양\t서울특별시\t영등포구\t당산동3가\t2\n2018-01-26\t332\t신성\t서울특별시\t은평구\t신사동\t2\n2018-01-26\t1023\t창동주공18단지\t서울특별시\t도봉구\t창동\t17\n2018-01-26\t1617\t서광\t서울특별시\t강남구\t삼성동\t3\n2018-01-26\t2599\t구로현대\t서울특별시\t구로구\t구로동\t10\n2018-01-26\t2260\t강변\t서울특별시\t강서구\t가양동\t32\n2018-01-26\t1618\t수서한아름\t서울특별시\t강남구\t수서동\t12\n2018-01-26\t1177\t대림코오롱\t서울특별시\t영등포구\t대림동\t8\n2018-01-26\t1223\t풍림2차\t서울특별시\t서대문구\t홍은동\t8\n2018-01-26\t1352\t한화성원\t서울특별시\t도봉구\t방학동\t5\n2018-01-26\t1419\t현대2,3,4차\t서울특별시\t송파구\t오금동\t8\n2018-01-26\t618\t서울가든\t서울특별시\t동대문구\t휘경동\t3\n2018-01-26\t2910\t신안파크\t서울특별시\t성북구\t길음동\t9\n2018-01-26\t2804\t상계현대1차\t서울특별시\t노원구\t상계동\t6\n2018-01-26\t147\t금호\t서울특별시\t양천구\t목동\t3\n2018-01-26\t421\t미성\t서울특별시\t구로구\t신도림동\t3\n2018-01-26\t631\t석탑\t서울특별시\t강남구\t삼성동\t1\n2018-01-26\t277\t동부\t서울특별시\t노원구\t공릉동\t1\n2018-01-26\t2863\t문래현대6차\t서울특별시\t영등포구\t문래동6가\t11\n2018-01-26\t872\t우성\t서울특별시\t동작구\t노량진동\t8\n2018-01-26\t1302\t신반포23차\t서울특별시\t서초구\t반포동\t9\n2018-01-26\t2907\t옥수삼성\t서울특별시\t성동구\t옥수동\t24\n2018-01-26\t1127\t진흥\t서울특별시\t서초구\t서초동\t3\n2018-01-26\t711\t청솔\t서울특별시\t노원구\t하계동\t12\n2018-01-26\t613\t치현마을서광\t서울특별시\t강서구\t방화동\t2\n2018-01-26\t2436\t성현동아\t서울특별시\t관악구\t봉천동\t10\n2018-01-26\t1118\t진도1차\t서울특별시\t양천구\t목동\t1\n2018-01-26\t2821\t동성3차\t서울특별시\t중랑구\t신내동\t3\n2018-01-26\t570\t삼호가든맨션5차\t서울특별시\t서초구\t반포동\t8\n2018-01-26\t336\t럭키\t서울특별시\t금천구\t시흥동\t3\n2018-01-26\t30\t개포럭키\t서울특별시\t강남구\t도곡동\t3\n2018-01-26\t2775\t용마금호타운\t서울특별시\t중랑구\t면목동\t1\n2018-01-26\t1145\t목동청구한신\t서울특별시\t양천구\t목동\t9\n2018-01-26\t1243\t한강\t서울특별시\t강서구\t가양동\t7\n2018-01-26\t2779\t신내4단지\t서울특별시\t중랑구\t묵동\t4\n2018-01-26\t1142\t신반포청구\t서울특별시\t서초구\t잠원동\t6\n2018-01-26\t1212\t푸른마을\t서울특별시\t강남구\t일원동\t12\n2018-01-26\t533\t삼익\t서울특별시\t영등포구\t여의도동\t2\n2018-01-26\t2259\t강나루현대\t서울특별시\t강서구\t가양동\t7\n2018-01-26\t1286\t한신\t서울특별시\t송파구\t가락동\t8\n2018-01-26\t891\t염창우성1차\t서울특별시\t강서구\t염창동\t3\n2018-01-26\t40\t건영\t서울특별시\t강남구\t청담동\t4\n2018-01-26\t2923\t삼성\t서울특별시\t노원구\t중계동\t2\n2018-01-26\t2849\t목동우성2차\t서울특별시\t양천구\t신정동\t6\n2018-01-26\t288\t도곡쌍용예가\t서울특별시\t강남구\t도곡동\t6\n2018-01-26\t2805\t상계현대2차\t서울특별시\t노원구\t상계동\t3\n2018-01-26\t1042\t등촌주공2단지\t서울특별시\t강서구\t등촌동\t5\n2018-01-26\t1388\t불암현대\t서울특별시\t노원구\t상계동\t1\n2018-01-26\t739\t신동아\t서울특별시\t강남구\t수서동\t20\n2018-01-26\t47\t건영1차\t서울특별시\t관악구\t신림동\t5\n2018-01-26\t717\t신답경남\t서울특별시\t동대문구\t답십리동\t3\n2018-01-26\t420\t미성\t서울특별시\t관악구\t신림동\t9\n2018-01-26\t2851\t강마을삼성\t서울특별시\t영등포구\t당산동\t11\n2018-01-26\t1396\t현대\t서울특별시\t송파구\t송파동\t4\n2018-01-26\t1349\t행당한진타운\t서울특별시\t성동구\t행당동\t26\n2018-01-26\t1295\t신반포16차\t서울특별시\t서초구\t잠원동\t9\n2018-01-26\t353\t명일삼환\t서울특별시\t강동구\t명일동\t1\n2018-01-26\t1280\t한신\t서울특별시\t강동구\t천호동\t11\n2018-01-26\t2316\t등촌주공8단지\t서울특별시\t강서구\t등촌동\t11\n2018-01-26\t1122\t진주\t서울특별시\t송파구\t신천동\t7\n2018-01-26\t877\t우성\t서울특별시\t양천구\t목동\t5\n2018-01-26\t124\t옥수극동\t서울특별시\t성동구\t옥수동\t7\n2018-01-26\t1451\t현대5차\t서울특별시\t송파구\t가락동\t9\n2018-01-26\t1390\t현대\t서울특별시\t동작구\t신대방동\t6\n2018-01-26\t287\t동신\t서울특별시\t노원구\t월계동\t2\n2018-01-26\t2894\t월계주공2단지\t서울특별시\t노원구\t월계동\t8\n2018-01-26\t1238\t한강극동\t서울특별시\t송파구\t풍납동\t14\n2018-01-26\t1283\t한신\t서울특별시\t노원구\t하계동\t13\n2018-01-26\t31\t개포우성1차\t서울특별시\t강남구\t대치동\t3\n2018-01-26\t2841\t상계주공16단지\t서울특별시\t노원구\t상계동\t11\n2018-01-26\t1416\t현대1차\t서울특별시\t영등포구\t대림동\t5\n2018-01-26\t616\t서울가든\t서울특별시\t구로구\t고척동\t1\n2018-01-26\t933\t유원목동\t서울특별시\t양천구\t신정동\t3\n2018-01-26\t196\t대림\t서울특별시\t용산구\t이촌동\t3\n2018-01-26\t2892\t한신1차\t서울특별시\t노원구\t상계동\t2\n2018-01-26\t835\t염광\t서울특별시\t노원구\t중계동\t3\n2018-01-26\t2573\t동아한신\t서울특별시\t구로구\t고척동\t2\n2018-01-26\t2722\t공릉우성아파트\t서울특별시\t노원구\t공릉동\t3\n2018-01-26\t355\t목동신시가지10단지\t서울특별시\t양천구\t신정동\t1\n2018-01-26\t1340\t한양6차\t서울특별시\t도봉구\t쌍문동\t2\n2018-01-26\t2858\t문래미원\t서울특별시\t영등포구\t문래동6가\t5\n2018-01-26\t2826\t중앙하이츠\t서울특별시\t중랑구\t신내동\t1\n2018-01-26\t539\t삼익\t서울특별시\t강남구\t수서동\t11\n2018-01-26\t323\t두산\t서울특별시\t구로구\t개봉동\t11\n2018-01-26\t1013\t등촌주공10단지\t서울특별시\t강서구\t등촌동\t1\n2018-01-26\t136\t금호타운\t서울특별시\t강서구\t염창동\t6\n2018-01-26\t1107\t명일중앙하이츠\t서울특별시\t강동구\t상일동\t8\n2018-01-26\t200\t대림\t서울특별시\t강남구\t도곡동\t8\n2018-01-26\t2902\t신동아1차\t서울특별시\t서초구\t서초동\t5\n2018-01-26\t544\t삼익\t서울특별시\t노원구\t공릉동\t2\n2018-01-26\t338\t대현럭키\t서울특별시\t서대문구\t대현동\t7\n2018-01-26\t1624\t일원우성7차\t서울특별시\t강남구\t일원동\t4\n2018-01-26\t1108\t하이츠\t서울특별시\t성동구\t사근동\t13\n2018-01-26\t918\t우성캐릭터199\t서울특별시\t강남구\t도곡동\t2\n2018-01-26\t543\t삼익\t서울특별시\t금천구\t가산동\t12\n2018-01-26\t2803\t불암동아\t서울특별시\t노원구\t상계동\t2\n2018-01-26\t509\t삼성래미안\t서울특별시\t영등포구\t신길동\t18\n2018-01-26\t282\t등촌동성\t서울특별시\t강서구\t등촌동\t2\n2018-01-26\t2819\t신당삼성\t서울특별시\t중구\t신당동\t23\n2018-01-26\t867\t길동우성\t서울특별시\t강동구\t길동\t10\n2018-01-26\t516\t관음삼성\t서울특별시\t강서구\t염창동\t3\n2018-01-26\t1308\t신반포2차\t서울특별시\t서초구\t잠원동\t6\n2018-01-26\t364\t목동신시가지8단지\t서울특별시\t양천구\t신정동\t9\n2018-01-26\t1371\t현대맨숀\t서울특별시\t용산구\t이촌동\t7\n2018-01-26\t878\t이촌우성\t서울특별시\t용산구\t이촌동\t5\n2018-01-26\t1239\t한강맨션\t서울특별시\t용산구\t이촌동\t7\n2018-01-26\t168\t녹원한신\t서울특별시\t서초구\t잠원동\t2\n2018-01-26\t912\t신길우성5차\t서울특별시\t영등포구\t신길동\t2\n2018-01-26\t1320\t도곡한신\t서울특별시\t강남구\t도곡동\t2\n2018-01-26\t2313\t등촌코오롱\t서울특별시\t강서구\t등촌동\t1\n2018-01-26\t2896\t청백4단지\t서울특별시\t노원구\t월계동\t3\n2018-01-26\t394\t무학현대\t서울특별시\t성동구\t하왕십리동\t4\n2018-01-26\t2842\t상계주공2단지\t서울특별시\t노원구\t상계동\t4\n2018-01-26\t215\t대림2차\t서울특별시\t양천구\t목동\t1\n2018-01-26\t744\t신동아3단지\t서울특별시\t도봉구\t방학동\t1\n2018-01-26\t2493\t자양한양\t서울특별시\t광진구\t자양동\t8\n2018-01-26\t125\t극동\t서울특별시\t송파구\t가락동\t8\n2018-01-26\t577\t삼환도봉\t서울특별시\t도봉구\t도봉동\t4\n2018-01-26\t1477\t홍제원현대\t서울특별시\t서대문구\t홍제동\t7\n2018-01-26\t2764\t대동청솔\t서울특별시\t노원구\t상계동\t2\n2018-01-26\t1625\t수서1단지\t서울특별시\t강남구\t일원동\t15\n2018-01-26\t1298\t신반포19차\t서울특별시\t서초구\t잠원동\t3\n2018-01-26\t1293\t신반포14차\t서울특별시\t서초구\t잠원동\t7\n2018-01-26\t2263\t한사랑삼성2차\t서울특별시\t강서구\t등촌동\t8\n2018-01-26\t2490\t대동\t서울특별시\t광진구\t자양동\t14\n2018-01-26\t143\t금호2차\t서울특별시\t도봉구\t쌍문동\t2\n2018-01-26\t1431\t현대2차\t서울특별시\t강동구\t둔촌동\t4\n2018-01-26\t1519\t신도림현대\t서울특별시\t구로구\t구로동\t6\n2018-01-26\t230\t고척대우\t서울특별시\t구로구\t고척동\t11\n2018-01-26\t440\t밤섬현대\t서울특별시\t마포구\t현석동\t10\n2018-01-26\t127\t극동1차\t서울특별시\t광진구\t광장동\t5\n2018-01-26\t26\t개나리4차\t서울특별시\t강남구\t역삼동\t9\n2018-01-26\t1332\t한양1차\t서울특별시\t도봉구\t쌍문동\t8\n2018-01-26\t512\t삼성1차\t서울특별시\t광진구\t광장동\t2\n2018-01-26\t1314\t한신로얄\t서울특별시\t서초구\t잠원동\t3\n2018-01-26\t1233\t중앙하이츠\t서울특별시\t강서구\t화곡동\t12\n2018-01-26\t900\t우성2차\t서울특별시\t도봉구\t방학동\t3\n2018-01-26\t658\t성지\t서울특별시\t금천구\t시흥동\t2\n2018-01-26\t185\t대교\t서울특별시\t영등포구\t여의도동\t5\n2018-01-26\t1139\t청구\t서울특별시\t노원구\t하계동\t1\n2018-01-26\t2598\t극동\t서울특별시\t구로구\t구로동\t2\n2018-01-26\t2874\t상계주공8단지\t서울특별시\t노원구\t상계동\t3\n2018-01-26\t2815\t무악현대\t서울특별시\t종로구\t무악동\t8\n2018-01-26\t647\t성원\t서울특별시\t영등포구\t대림동\t3\n2018-01-26\t316\t동진\t서울특별시\t노원구\t중계동\t1\n2018-01-26\t241\t대웅\t서울특별시\t도봉구\t쌍문동\t1\n2018-01-26\t597\t상아2차\t서울특별시\t강남구\t삼성동\t1\n2018-01-26\t1313\t신반포9차\t서울특별시\t서초구\t잠원동\t6\n2018-01-26\t370\t목련타운\t서울특별시\t강남구\t일원동\t4\n2018-01-26\t1229\t프라자\t서울특별시\t강동구\t둔촌동\t3\n2018-01-26\t120\t쌍문극동\t서울특별시\t도봉구\t쌍문동\t2\n2018-01-26\t128\t광장극동2차\t서울특별시\t광진구\t광장동\t7\n2018-01-26\t2845\t올림픽선수기자촌\t서울특별시\t송파구\t방이동\t13\n2018-01-26\t937\t유원제일2차\t서울특별시\t영등포구\t당산동5가\t4\n2018-01-26\t558\t삼천리\t서울특별시\t구로구\t오류동\t3\n2018-01-26\t1077\t개포주공6단지\t서울특별시\t강남구\t개포동\t8\n2018-01-26\t603\t엠브이\t서울특별시\t서초구\t반포동\t9\n2018-01-26\t2872\t상계주공6단지\t서울특별시\t노원구\t상계동\t25\n2018-01-26\t33\t개포우성5차\t서울특별시\t강남구\t도곡동\t7\n2018-01-26\t2880\t동아한가람\t서울특별시\t송파구\t풍납동\t13\n2018-01-26\t801\t쌍용\t서울특별시\t도봉구\t창동\t4\n2018-01-26\t307\t동아\t서울특별시\t성동구\t성수동1가\t16\n2018-01-26\t559\t삼풍\t서울특별시\t서초구\t서초동\t10\n2018-01-26\t225\t대아\t서울특별시\t동작구\t사당동\t11\n2018-01-26\t2317\t태영\t서울특별시\t강서구\t등촌동\t3\n2018-01-26\t1041\t주공저층2단지\t서울특별시\t강동구\t둔촌동\t6\n2018-01-26\t2822\t신내11단지대명\t서울특별시\t중랑구\t신내동\t2\n2018-01-26\t888\t우성1,2,3차\t서울특별시\t송파구\t잠실동\t11\n2018-01-26\t1393\t금호현대\t서울특별시\t성동구\t응봉동\t11\n2018-01-26\t523\t삼성한아름\t서울특별시\t강서구\t염창동\t2\n2018-01-26\t1292\t신반포13차\t서울특별시\t서초구\t잠원동\t3\n2018-01-26\t1003\t제일\t서울특별시\t동작구\t사당동\t3\n2018-01-26\t1463\t구로현대\t서울특별시\t구로구\t구로동\t4\n2018-01-26\t1629\t청담현대3차\t서울특별시\t강남구\t청담동\t6\n2018-01-26\t202\t화곡대림\t서울특별시\t강서구\t화곡동\t2\n2018-01-26\t361\t목동신시가지4단지\t서울특별시\t양천구\t목동\t3\n2018-01-26\t258\t도시개발2단지\t서울특별시\t강서구\t방화동\t7\n2018-01-26\t748\t신동아5단지\t서울특별시\t도봉구\t방학동\t1\n2018-01-26\t2860\t진주맨션\t서울특별시\t영등포구\t문래동5가\t1\n2018-01-26\t521\t삼성하나로\t서울특별시\t강서구\t염창동\t2\n2018-01-26\t2890\t경남아너스빌1차\t서울특별시\t영등포구\t양평동3가\t4\n2018-01-26\t1455\t가락현대6차\t서울특별시\t송파구\t가락동\t7\n2018-01-26\t1136\t청담아이파크\t서울특별시\t강남구\t청담동\t8\n2018-01-26\t249\t대치2단지\t서울특별시\t강남구\t개포동\t20\n2018-01-26\t2911\t동소문현대\t서울특별시\t성북구\t돈암동\t8\n2018-01-26\t554\t삼익세라믹\t서울특별시\t도봉구\t쌍문동\t10\n2018-01-26\t1394\t길음현대\t서울특별시\t성북구\t길음동\t7\n2018-01-26\t811\t대치쌍용1차\t서울특별시\t강남구\t대치동\t6\n2018-01-26\t2840\t상계주공13단지\t서울특별시\t노원구\t상계동\t5\n2018-01-26\t792\t신현대\t서울특별시\t동대문구\t회기동\t10\n2018-01-26\t635\t선경1,2차\t서울특별시\t강남구\t대치동\t3\n2018-01-26\t32\t개포우성4차\t서울특별시\t강남구\t도곡동\t6\n2018-01-26\t3\t강변\t서울특별시\t서초구\t잠원동\t1\n2018-01-26\t2721\t태강\t서울특별시\t노원구\t공릉동\t10\n2018-01-26\t73\t경동미주\t서울특별시\t동대문구\t제기동\t5\n2018-01-26\t2825\t신내7단지진로\t서울특별시\t중랑구\t신내동\t2\n2018-01-26\t775\t신안파크\t서울특별시\t양천구\t신월동\t3\n2018-01-26\t694\t시범\t서울특별시\t영등포구\t여의도동\t9\n2018-01-26\t555\t삼익파크맨숀\t서울특별시\t강동구\t길동\t14\n2018-01-26\t936\t유원제일\t서울특별시\t영등포구\t당산동4가\t4\n2018-01-26\t1106\t둔촌하이츠\t서울특별시\t강동구\t둔촌동\t4\n2018-01-26\t1230\t프라자\t서울특별시\t송파구\t가락동\t6\n2018-01-26\t1000\t점보\t서울특별시\t용산구\t이촌동\t1\n2018-01-26\t2766\t미주동방벽운\t서울특별시\t노원구\t상계동\t3\n2018-01-26\t151\t길훈\t서울특별시\t강서구\t방화동\t1\n2018-01-26\t702\t신월시영\t서울특별시\t양천구\t신월동\t8\n2018-01-26\t2865\t삼성래미안\t서울특별시\t영등포구\t양평동2가\t6\n2018-01-26\t422\t미성\t서울특별시\t노원구\t하계동\t1\n2018-01-26\t640\t현대\t서울특별시\t성동구\t성수동1가\t8\n2018-01-26\t1146\t청구3차\t서울특별시\t노원구\t중계동\t4\n2018-01-26\t2784\tLG쌍용\t서울특별시\t중랑구\t상봉동\t1\n2018-01-26\t224\t경남아너스빌\t서울특별시\t동작구\t사당동\t1\n2018-01-26\t460\t수유벽산1차\t서울특별시\t강북구\t수유동\t19\n2018-01-26\t1312\t신반포8차\t서울특별시\t서초구\t잠원동\t10\n2018-01-26\t1112\t중앙하이츠\t서울특별시\t노원구\t중계동\t7\n2018-01-26\t802\t한강쌍용\t서울특별시\t동작구\t본동\t12\n2018-01-26\t302\t동아1차\t서울특별시\t강서구\t염창동\t12\n2018-01-26\t740\t신동아1단지\t서울특별시\t도봉구\t방학동\t5\n2018-01-26\t122\t극동\t서울특별시\t동작구\t사당동\t7\n2018-01-26\t2761\t공릉3단지라이프\t서울특별시\t노원구\t공릉동\t5\n2018-01-26\t2488\t자양5차현대\t서울특별시\t광진구\t자양동\t9\n2018-01-26\t1626\t가람\t서울특별시\t강남구\t일원동\t7\n2018-01-26\t1505\t서강GS\t서울특별시\t마포구\t신정동\t11\n2018-01-26\t184\t대광\t서울특별시\t성북구\t안암동3가\t4\n2018-01-26\t2846\t현대리버빌1지구\t서울특별시\t송파구\t풍납동\t12\n2018-01-26\t923\t가락우창\t서울특별시\t송파구\t오금동\t4\n2018-01-26\t1391\t마장현대\t서울특별시\t성동구\t마장동\t16\n2018-01-26\t983\t임광3차\t서울특별시\t서초구\t방배동\t10\n2018-01-26\t2901\t방배현대홈타운1차\t서울특별시\t서초구\t방배동\t8\n2018-01-26\t1453\t현대6단지\t서울특별시\t광진구\t구의동\t4\n2018-01-26\t1456\t구의조합현대7단지\t서울특별시\t광진구\t구의동\t11\n2018-01-26\t2777\t면목한신\t서울특별시\t중랑구\t면목동\t40\n2018-01-26\t1383\t현대\t서울특별시\t강동구\t성내동\t9\n2018-01-26\t51\t건영2차\t서울특별시\t관악구\t신림동\t3\n2018-01-26\t2169\t번동솔그린\t서울특별시\t강북구\t번동\t4\n2018-01-26\t595\t경남롯데상아\t서울특별시\t노원구\t중계동\t6\n2018-01-26\t171\t뉴서울\t서울특별시\t관악구\t신림동\t2\n2018-01-26\t138\t중계금호타운\t서울특별시\t노원구\t중계동\t2\n2018-01-26\t1345\t우성\t서울특별시\t강동구\t길동\t2\n2018-01-26\t1422\t신사현대1차\t서울특별시\t은평구\t신사동\t4\n2018-01-26\t42\t송정건영\t서울특별시\t성동구\t송정동\t21\n2018-01-26\t2537\t개봉한진타운\t서울특별시\t구로구\t개봉동\t8\n2018-01-26\t1891\t삼익그린맨션2차\t서울특별시\t강동구\t명일동\t9\n2018-01-26\t827\t양지대림\t서울특별시\t노원구\t중계동\t4\n2018-01-26\t1022\t주공17단지\t서울특별시\t도봉구\t창동\t9\n2018-01-26\t1610\t구일우성\t서울특별시\t구로구\t구로동\t4\n2018-01-26\t1338\t잠실3차한양\t서울특별시\t송파구\t방이동\t8\n2018-01-26\t1176\t코오롱\t서울특별시\t성북구\t삼선동4가\t19\n2018-01-26\t2087\t천호삼성\t서울특별시\t강동구\t천호동\t14\n2018-01-26\t733\t신동아\t서울특별시\t용산구\t서빙고동\t12\n2018-01-26\t2318\t벽산\t서울특별시\t강서구\t마곡동\t3\n2018-01-26\t1073\t개포주공5단지\t서울특별시\t강남구\t개포동\t10\n2018-01-26\t1328\t한양\t서울특별시\t서대문구\t홍제동\t6\n2018-01-26\t2643\t신도림대림1,2차\t서울특별시\t구로구\t신도림동\t13\n2018-01-26\t2913\t돈암삼성\t서울특별시\t성북구\t돈암동\t25\n2018-01-26\t192\t대림\t서울특별시\t서초구\t우면동\t5\n2018-01-26\t279\t동부1차\t서울특별시\t구로구\t오류동\t4\n2018-01-26\t1392\t현대\t서울특별시\t성동구\t옥수동\t13\n2018-01-26\t1246\t현대한강\t서울특별시\t용산구\t이촌동\t15\n2018-01-26\t293\t상일동아\t서울특별시\t강동구\t상일동\t8\n2018-01-26\t2899\t청구1차\t서울특별시\t서대문구\t홍제동\t4\n2018-01-26\t1311\t신반포7차\t서울특별시\t서초구\t잠원동\t1\n2018-01-26\t874\t방배우성\t서울특별시\t서초구\t방배동\t14\n2018-01-26\t2261\t우방\t서울특별시\t강서구\t가양동\t3\n2018-01-26\t223\t동신대아\t서울특별시\t강서구\t가양동\t3\n2018-01-26\t1143\t청구\t서울특별시\t양천구\t신정동\t1\n2018-01-26\t725\t신동아\t서울특별시\t관악구\t신림동\t4\n2018-01-26\t1466\t현대연예인\t서울특별시\t구로구\t구로동\t5\n2018-01-26\t644\t성원\t서울특별시\t도봉구\t쌍문동\t1\n2018-01-26\t2616\t이화우성\t서울특별시\t구로구\t구로동\t1\n2018-01-26\t553\t삼익세라믹\t서울특별시\t도봉구\t방학동\t1\n2018-01-26\t704\t거여1단지\t서울특별시\t송파구\t거여동\t10\n2018-01-26\t337\t럭키\t서울특별시\t도봉구\t도봉동\t13\n2018-01-26\t92\t현대1,2차\t서울특별시\t강남구\t압구정동\t3\n2018-01-26\t2827\t한신\t서울특별시\t중랑구\t중화동\t27\n2018-01-26\t568\t가든맨션3차\t서울특별시\t서초구\t반포동\t3\n2018-01-26\t2824\t신내9단지진흥\t서울특별시\t중랑구\t신내동\t13\n2018-01-26\t1066\t창동주공4단지\t서울특별시\t도봉구\t창동\t17\n2018-01-26\t191\t대림\t서울특별시\t서대문구\t연희동\t4\n2018-01-26\t113\t잠원한신그린\t서울특별시\t서초구\t잠원동\t9\n2018-01-26\t431\t미주\t서울특별시\t동대문구\t청량리동\t14\n2018-01-26\t2767\t미도\t서울특별시\t노원구\t상계동\t4\n2018-01-26\t1395\t돈암현대\t서울특별시\t성북구\t돈암동\t16\n2018-01-26\t2857\t문래두산위브\t서울특별시\t영등포구\t문래동5가\t7\n2018-01-26\t357\t목동신시가지13단지\t서울특별시\t양천구\t신정동\t11\n2018-01-26\t1386\t방화현대\t서울특별시\t강서구\t방화동\t3\n2018-01-26\t325\t두산\t서울특별시\t서대문구\t홍은동\t4\n2018-01-26\t2920\t초안1단지\t서울특별시\t노원구\t월계동\t2\n2018-01-26\t1410\t현대1차\t서울특별시\t강동구\t둔촌동\t6\n2018-01-26\t305\t그린\t서울특별시\t용산구\t이촌동\t13\n2018-01-26\t1221\t풍림1차\t서울특별시\t서대문구\t홍은동\t9\n2018-01-26\t2886\t당산효성1차\t서울특별시\t영등포구\t당산동5가\t6\n2018-01-26\t1601\t한국현대\t서울특별시\t구로구\t구로동\t3\n2018-01-26\t911\t우성5차\t서울특별시\t서초구\t서초동\t8\n2018-01-26\t1244\t한강현대\t서울특별시\t광진구\t자양동\t9\n2018-01-26\t1454\t현대6차\t서울특별시\t노원구\t중계동\t3\n2018-01-26\t80\t고덕현대\t서울특별시\t강동구\t명일동\t2\n2018-01-26\t566\t북가좌삼호\t서울특별시\t서대문구\t북가좌동\t1\n2018-01-26\t948\t은빛1단지\t서울특별시\t노원구\t상계동\t1\n2018-01-26\t413\t반포미도2차\t서울특별시\t서초구\t반포동\t8\n2018-01-26\t2871\t상계주공5단지\t서울특별시\t노원구\t상계동\t12\n2018-01-26\t1027\t주공저층1단지\t서울특별시\t강동구\t둔촌동\t6\n2018-01-26\t197\t대림\t서울특별시\t은평구\t녹번동\t8\n2018-01-26\t2873\t상계주공7단지\t서울특별시\t노원구\t상계동\t15\n2018-01-26\t663\t세림\t서울특별시\t성동구\t마장동\t17\n2018-01-26\t2492\t우성7차\t서울특별시\t광진구\t자양동\t16\n2018-01-26\t432\t미주진로\t서울특별시\t강서구\t등촌동\t5\n2018-01-26\t1290\t신반포11차\t서울특별시\t서초구\t잠원동\t5\n2018-01-26\t1460\t현대\t서울특별시\t금천구\t시흥동\t6\n2018-01-26\t2861\t현대3차\t서울특별시\t영등포구\t문래동5가\t3\n2018-01-26\t786\t신트리1단지\t서울특별시\t양천구\t신정동\t9\n2018-01-26\t1318\t한신코아\t서울특별시\t송파구\t신천동\t12\n2018-01-26\t2823\t신내6단지시영\t서울특별시\t중랑구\t신내동\t24\n2018-01-26\t800\t쌍용\t서울특별시\t관악구\t신림동\t5\n2018-01-26\t1420\t구의현대2단지\t서울특별시\t광진구\t구의동\t14\n2018-01-26\t2891\t상계중앙하이츠1차\t서울특별시\t노원구\t상계동\t1\n2018-01-26\t2437\t봉천우성\t서울특별시\t관악구\t봉천동\t8\n2018-01-26\t1468\t명일현대\t서울특별시\t강동구\t명일동\t1\n2018-01-26\t310\t동고\t서울특별시\t서초구\t우면동\t4\n2018-01-26\t695\t시범\t서울특별시\t용산구\t이촌동\t3\n2018-01-26\t2917\t가락쌍용2차\t서울특별시\t송파구\t가락동\t5\n2018-01-26\t428\t미성맨션\t서울특별시\t송파구\t송파동\t4\n2018-01-26\t2856\t대원\t서울특별시\t영등포구\t문래동6가\t2\n2018-01-26\t893\t우성1차\t서울특별시\t서초구\t서초동\t3\n2018-01-26\t875\t우성\t서울특별시\t서초구\t양재동\t12\n2018-01-26\t2895\t청백3단지\t서울특별시\t노원구\t월계동\t3\n2018-01-26\t1621\t한양1차\t서울특별시\t강남구\t압구정동\t2\n2018-01-26\t850\t영화\t서울특별시\t구로구\t개봉동\t2\n2018-01-26\t2760\t공릉2단지라이프\t서울특별시\t노원구\t공릉동\t1\n2018-01-26\t1600\t우성\t서울특별시\t구로구\t구로동\t14\n2018-01-26\t54\t건영3차\t서울특별시\t관악구\t신림동\t6\n2018-01-26\t2844\t코오롱\t서울특별시\t송파구\t방이동\t11\n2018-01-26\t2457\t신림동부\t서울특별시\t관악구\t신림동\t12\n2018-01-26\t142\t금호1차\t서울특별시\t도봉구\t쌍문동\t6\n2018-01-26\t286\t동신\t서울특별시\t성북구\t하월곡동\t9\n2018-01-26\t204\t대방대림\t서울특별시\t동작구\t대방동\t6\n2018-01-26\t194\t대림\t서울특별시\t송파구\t방이동\t7\n2018-01-26\t1331\t한양\t서울특별시\t영등포구\t여의도동\t7\n2018-01-26\t1408\t도곡현대\t서울특별시\t강남구\t도곡동\t4\n2018-01-26\t507\t삼성\t서울특별시\t송파구\t오금동\t8\n2018-01-26\t65\t방배경남\t서울특별시\t서초구\t방배동\t3\n2018-01-26\t989\t장미\t서울특별시\t영등포구\t여의도동\t4\n2018-01-26\t1620\t미성2차\t서울특별시\t강남구\t압구정동\t5\n2018-01-26\t1284\t도봉한신\t서울특별시\t도봉구\t도봉동\t40\n2018-01-26\t2314\t한사랑삼성1차\t서울특별시\t강서구\t등촌동\t8\n2018-01-26\t129\t극동강변\t서울특별시\t동작구\t본동\t5\n2018-01-26\t1449\t광장현대5단지\t서울특별시\t광진구\t광장동\t4\n2018-01-26\t2888\t남서울\t서울특별시\t영등포구\t신길동\t9\n2018-01-26\t2808\t두산\t서울특별시\t노원구\t상계동\t9\n2018-01-26\t870\t가양우성\t서울특별시\t강서구\t가양동\t3\n2018-01-26\t531\t목동삼익\t서울특별시\t양천구\t목동\t3\n2018-01-26\t2769\t한강대우\t서울특별시\t용산구\t이촌동\t6\n2018-01-26\t2311\t등촌서광\t서울특별시\t강서구\t등촌동\t4\n2018-01-26\t2781\t동부\t서울특별시\t중랑구\t상봉동\t6\n2018-01-26\t2494\t자양현대3차\t서울특별시\t광진구\t자양동\t12\n2018-01-26\t734\t신동아\t서울특별시\t은평구\t응암동\t5\n2018-01-26\t144\t금호\t서울특별시\t강북구\t번동\t2\n2018-01-26\t522\t한마음삼성\t서울특별시\t강서구\t염창동\t2\n2018-01-26\t1028\t번동주공1단지\t서울특별시\t강북구\t번동\t11\n2018-01-26\t1304\t신반포25차\t서울특별시\t서초구\t잠원동\t2\n2018-01-26\t1341\t한양7차\t서울특별시\t도봉구\t쌍문동\t6\n2018-01-26\t2852\t진로\t서울특별시\t영등포구\t당산동1가\t11\n2018-01-26\t2870\t상계주공4단지\t서울특별시\t노원구\t상계동\t9\n2018-01-26\t2866\t삼천리\t서울특별시\t영등포구\t양평동3가\t6\n2018-01-26\t676\t송산\t서울특별시\t성북구\t동소문동4가\t6\n2018-01-26\t318\t동현\t서울특별시\t강남구\t논현동\t6\n2018-01-26\t358\t목동신시가지14단지\t서울특별시\t양천구\t신정동\t7\n2018-01-26\t2720\t비선\t서울특별시\t노원구\t공릉동\t3\n2018-01-26\t1162\t청화\t서울특별시\t용산구\t이태원동\t9\n2018-01-26\t816\t아남\t서울특별시\t성북구\t하월곡동\t5\n2018-01-26\t1159\t방화3단지청솔\t서울특별시\t강서구\t방화동\t2\n2018-01-26\t729\t신동아\t서울특별시\t성동구\t행당동\t2\n2018-01-26\t1043\t창동주공2단지\t서울특별시\t도봉구\t창동\t8\n2018-01-26\t1370\t목동현대1차\t서울특별시\t양천구\t목동\t4\n2018-01-26\t821\t아시아선수촌\t서울특별시\t송파구\t잠실동\t13\n2018-01-26\t1385\t미아현대\t서울특별시\t강북구\t미아동\t8\n2018-01-26\t1511\t구로롯데\t서울특별시\t구로구\t구로동\t18\n2018-01-26\t2816\t창신쌍용2단지\t서울특별시\t종로구\t창신동\t9\n2018-01-26\t639\t코오롱1차\t서울특별시\t강동구\t성내동\t5\n2018-01-26\t116\t극동\t서울특별시\t강북구\t수유동\t9\n2018-01-26\t139\t가락금호\t서울특별시\t송파구\t가락동\t11\n2018-01-26\t836\t쌍문염광\t서울특별시\t도봉구\t쌍문동\t3\n2018-01-26\t2916\t미륭\t서울특별시\t송파구\t가락동\t7\n2018-01-26\t651\t성원\t서울특별시\t강북구\t우이동\t3\n2018-01-26\t1264\t한보구암마을\t서울특별시\t강서구\t가양동\t1\n2018-01-26\t1174\t코오롱\t서울특별시\t노원구\t상계동\t3\n2018-01-26\t922\t우정\t서울특별시\t양천구\t신월동\t1\n2018-01-26\t794\t신화\t서울특별시\t서초구\t잠원동\t2\n2018-01-26\t2759\t동신\t서울특별시\t노원구\t공릉동\t1\n2018-01-26\t567\t양평삼호\t서울특별시\t영등포구\t양평동3가\t2\n2018-01-26\t514\t경남아너스빌\t서울특별시\t영등포구\t영등포동7가\t8\n2018-01-26\t1461\t현대그린\t서울특별시\t강남구\t도곡동\t1\n2018-01-26\t205\t대림\t서울특별시\t동작구\t사당동\t9\n2018-01-26\t410\t반포미도1차\t서울특별시\t서초구\t반포동\t14\n2018-01-26\t1315\t한신무학\t서울특별시\t성동구\t하왕십리동\t7\n2018-01-26\t2876\t문정푸르지오1차\t서울특별시\t송파구\t문정동\t2\n2018-01-26\t1245\t한강현대\t서울특별시\t동작구\t흑석동\t10\n2018-01-26\t579\t삼환\t서울특별시\t영등포구\t신길동\t4\n2018-01-26\t614\t서광\t서울특별시\t노원구\t월계동\t2\n2018-01-26\t828\t신안\t서울특별시\t노원구\t중계동\t6\n2018-01-26\t2877\t강변현대\t서울특별시\t송파구\t풍납동\t5\n2018-01-26\t2814\t아남\t서울특별시\t종로구\t명륜2가\t11\n2018-01-26\t280\t청담래미안로이뷰\t서울특별시\t강남구\t청담동\t12\n2018-01-26\t63\t경남1차\t서울특별시\t구로구\t고척동\t4\n2018-01-26\t754\t신림현대\t서울특별시\t관악구\t신림동\t60\n2018-01-26\t2458\t현대\t서울특별시\t관악구\t신림동\t3\n2018-01-26\t496\t삼부\t서울특별시\t영등포구\t여의도동\t9\n2018-01-26\t2889\t거성파스텔\t서울특별시\t영등포구\t양평동3가\t3\n2018-01-26\t858\t하계1차청구\t서울특별시\t노원구\t하계동\t1\n2018-01-26\t1020\t주공14단지\t서울특별시\t금천구\t독산동\t22\n2018-01-26\t871\t우성\t서울특별시\t동대문구\t전농동\t9\n2018-01-26\t2862\t현대5차\t서울특별시\t영등포구\t문래동5가\t3\n2018-01-26\t899\t염창우성2차\t서울특별시\t강서구\t염창동\t2\n2018-01-26\t2847\t현대리버빌2지구\t서울특별시\t송파구\t풍납동\t3\n2018-01-26\t615\t서울\t서울특별시\t영등포구\t여의도동\t4\n2018-01-26\t607\t샘터마을\t서울특별시\t강남구\t일원동\t2\n2018-01-26\t146\t강변금호타운\t서울특별시\t성동구\t성수동2가\t2\n2018-01-26\t916\t우성9차\t서울특별시\t강남구\t개포동\t5\n2018-01-26\t153\t길훈\t서울특별시\t구로구\t오류동\t4\n2018-01-26\t1141\t쌍문청구\t서울특별시\t도봉구\t쌍문동\t2\n2018-01-26\t1160\t청실\t서울특별시\t구로구\t개봉동\t2\n2018-01-26\t986\t잠원한신\t서울특별시\t서초구\t잠원동\t3\n2018-01-26\t505\t삼성래미안\t서울특별시\t도봉구\t창동\t17\n2018-01-26\t861\t왕궁\t서울특별시\t용산구\t이촌동\t7\n2018-01-26\t1356\t해바라기\t서울특별시\t관악구\t봉천동\t4\n2018-01-26\t576\t삼환\t서울특별시\t구로구\t개봉동\t7\n2018-01-26\t815\t아남\t서울특별시\t성북구\t보문동6가\t14\n2018-01-26\t1163\t초록\t서울특별시\t강서구\t화곡동\t5\n2018-01-26\t646\t성원\t서울특별시\t영등포구\t당산동5가\t7\n2018-01-26\t2812\t이촌코오롱\t서울특별시\t용산구\t이촌동\t6\n2018-01-26\t785\t신창\t서울특별시\t도봉구\t창동\t24\n2018-01-26\t1306\t신반포27차\t서울특별시\t서초구\t잠원동\t6\n2018-01-26\t203\t진로대림\t서울특별시\t노원구\t중계동\t1\n"
+          }
+        ]
+      }
+    },
+    {
+      "title": "6. RDS 저장한다.",
+      "text": "val localDanjiCountDF = sqlContext.sql(s\"\"\"\n\nselect a.base_date, \n       a.danji_id, \n       b.danji_name,\n       b.sido,\n       b.sigungu,\n       b.dong,\n       count(*) as view_count\nfrom class.danji_user_view_silver a \njoin danji_master b\non a.danji_id = b.id \ngroup by a.base_date, \n       a.danji_id, \n       b.danji_name,\n       b.sido,\n       b.sigungu,\n       b.dong\n\n\"\"\")\n\nval tableName = \"dm.danji_user_view_summary_gold\"\nlocalDanjiCountDF.write.mode(\"append\").jdbc(url, tableName, prop)\n// 매일 매일 진행하는 쿼리이기 때문에 append 모드를 사용해서 진행 \n// jdbc를 이용해서 분석에 적절한(gold) 데이터 셋을 만들어서 database(mysql)에 저장 \n// 지역별 단지 조회 \n",
+      "user": "anonymous",
+      "dateUpdated": "2022-12-18T10:15:14+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "title": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://ip-172-31-38-97.ap-northeast-2.compute.internal:4040/jobs/job?id=13",
+              "$$hashKey": "object:7358"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1671354983529_1871631387",
+      "id": "20181010-131655_2141924504",
+      "dateCreated": "2022-12-18T09:16:23+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:190",
+      "dateFinished": "2022-12-18T10:12:39+0000",
+      "dateStarted": "2022-12-18T10:12:29+0000",
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\u001b[1m\u001b[34mlocalDanjiCountDF\u001b[0m: \u001b[1m\u001b[32morg.apache.spark.sql.DataFrame\u001b[0m = [base_date: date, danji_id: int ... 5 more fields]\n\u001b[1m\u001b[34mtableName\u001b[0m: \u001b[1m\u001b[32mString\u001b[0m = dm.danji_user_view_summary_gold\n"
+          }
+        ]
+      }
+    },
+    {
+      "user": "anonymous",
+      "dateUpdated": "2022-12-18T09:16:23+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1671354983529_1463825636",
+      "id": "20181010-132637_884037669",
+      "dateCreated": "2022-12-18T09:16:23+0000",
+      "status": "READY",
+      "$$hashKey": "object:191"
+    }
+  ],
+  "name": "4-3.지역별단지조회수",
+  "id": "2HPZTKYC7",
+  "defaultInterpreterGroup": "spark",
+  "version": "0.9.0",
+  "noteParams": {},
+  "noteForms": {},
+  "angularObjects": {},
+  "config": {
+    "isZeppelinNotebookCronEnable": false,
+    "looknfeel": "default",
+    "personalizedMode": "false"
+  },
+  "info": {},
+  "path": "/4-3.지역별단지조회수"
+}
